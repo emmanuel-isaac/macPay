@@ -20,7 +20,7 @@ nav a {
 SECTION
 /*************************/
 
-.section {
+.home-body {
     height: 350px;
     width: 99vw;
     background: linear-gradient(
@@ -29,12 +29,16 @@ SECTION
     ),url('../img/mac_image.jpg') no-repeat;
   background-size: cover;
   margin: 0 auto;
-  height: 90.8vh;
   width: 100vw;
   text-align: center;
+  height: 90.8vh;
 }
 
-.section div {
+section {
+    min-height: 90.8vh;
+}
+
+.welcome-message {
     min-height: 40vh;
     width: 80vw;
     margin: 0 auto 50px;
@@ -49,4 +53,9 @@ SECTION
 
 .section {
     font-family: Raleway !important;
+}
+
+#login-modal {
+    width: 30vw;
+    height: 50vh;
 }
