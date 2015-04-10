@@ -1,62 +1,57 @@
+{% extends "base.html" %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MacPay</title>
-    <meta charset='utf-8'>
-    <link rel="stylesheet" type="text/css" href="{% static 'lib/materialize/css/materialize.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/main.css' %}">
-    <link href='http://fonts.googleapis.com/css?family=Raleway:600' rel='stylesheet' type='text/css'>
-</head>
-<body>
 
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo">MacPay</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#login-modal" class="modal-trigger">Login</a></li>
-                </ul>
+{% block content %}
+<div class="home-body">
+    <div class="welcome-message">
+        <p class="flow-text">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting
+        </p>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            {% if form.errors %}
+                <p class="error">Sorry, Username or Password is incorrect</p>
+            {% endif %}
+            <div class="login-form">
+                <h5>Login</h5>
+                <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+                    <div>
+                        <div class="input-field">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password">
+                        </div>
+
+                        <div class="input-field">
+                            <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{request.META.CSRF_COOKIE}}">
+                        </div>
+                        <button class="btn waves-effect waves-light login-button right" type="submit" name="action">Login
+                            <i class="mdi-content-send right"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
-      </nav>
-    </header>
+        </div>
+    </div>
 
-    <section>
-        <div class="section">
-            <div>
-                <p class="flow-text">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting
-                </p>
-            </div>
-
-            <!-- Modal Structure -->
-            <div id="login-modal" class="modal">
-                <div class="modal-content">
-                    <h4>Modal Header</h4>
-                    <p>A bunch of text</p>
-                </div>
-            </div>
-
-            <button class="btn waves-effect waves-light login-button btn-large modal-trigger" href="#login-modal">LOGIN TO CONTINUE
+    {% if not request.user.is_authenticated %}
+        <button class="btn waves-effect waves-light login-button btn-large modal-trigger" href="#login-modal">LOGIN TO CONTINUE
+            <i class="mdi-content-send right"></i>
+        </button>
+    {% else %}
+        <a href="{% url 'dashboard' %}">
+            <button class="btn waves-effect waves-light btn-large">GO TO DASHBOARD
                 <i class="mdi-content-send right"></i>
             </button>
+        </a>
+    {% endif %}
 
-        </div>
-    </section>
-
-    <script type="text/javascript" src="{% static 'lib/jquery-2.1.3.js' %}"></script>
-    <script type="text/javascript" src="{% static 'lib/materialize/js/materialize.js' %}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-                $('.modal-trigger').leanModal({
-                    dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                    opacity: .5, // Opacity of modal background
-                    in_duration: 300, // Transition in duration
-                    out_duration: 200, // Transition out duration
-                });
-            });
-    </script>
-</body>
-</html>
+</div>
+{% endblock content %}
