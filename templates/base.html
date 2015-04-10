@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MacPay</title>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/materialize/css/materialize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/main.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:600' rel='stylesheet' type='text/css'>
+
+    {% block local_css %}
+        
+    {% endblock local_css %}
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{% url 'home' %}" class="brand-logo">MacPay</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                        <li><a href="{% url 'logout' %}">{{request.user.username}}</a></li>
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <li><a href="#login-modal" class="modal-trigger">Login</a></li>
+                    {% endif %}
+                    
+                </ul>
+            </div>
+      </nav>
+    </header>
+
+    <section>
+        {% block content %}
+            
+        {% endblock content %}
+    </section>
+
+    {% block local_js %}
+        
+    {% endblock local_js %}
+
+    <script type="text/javascript" src="{% static 'lib/jquery-2.1.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/materialize/js/materialize.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+                $('.modal-trigger').leanModal({
+                    dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                    opacity: .5, // Opacity of modal background
+                    in_duration: 300, // Transition in duration
+                    out_duration: 200, // Transition out duration
+                });
+            });
+    </script>
+</body>
+</html>
