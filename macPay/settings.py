@@ -33,10 +33,14 @@ ALLOWED_HOSTS = []
 
 THIRD_PARTY_APPS = (
     'autofixture',
+    'debug_toolbar',
+    'envvars',
 )
 
 LOCAL_APPS = (
     'apps.macpayuser',
+    'apps.computer',
+    'apps.payment',
 )
 
 INSTALLED_APPS = (
