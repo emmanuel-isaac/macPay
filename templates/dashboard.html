@@ -4,17 +4,26 @@
 
 {% block local_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/dashboard.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 {% endblock local_css %}
 
 {% block content %}
     <div class="fellow-summary card">
         <ul>
             <li>Total Number of Fellows: {{fellows.count}}</li>
-            <!--<li class='right'>Number of Fellows with Payment Plans: {{fellows_with_plan | length}}</li>-->
+            <li class='right'>Number of Fellows with Payment Plans: {{fellows_with_plan | length}}</li>
         </ul>
     </div>
 
+
+
     <div class='the-container card'>
+        <div class="sync-btn">
+            <button class="btn waves-effect waves-light btn-large" name="action">Sync Payment
+            </button>
+        </div>
+        <div class="divider"></div>
+        
         <div class="fellow-info">
             <table class="striped bordered">
                 <thead>
@@ -22,9 +31,9 @@
                         <th data-field="id">Fellow</th>
                         <th data-field="name">Computer Model</th>
                         <th data-field="price">Computer Value (&#8358;)</th>
-                        <th data-field="price">Payment Start Date</th>
                         <th data-field="price">Payment Plan (months)</th>
                         <th data-field="price">Monthly Payment (&#8358;)</th>
+                        <th data-field="price">Payment Start Date</th>
                         <th data-field="price">Amount Paid (&#8358;)</th>
                         <th data-field="price">Balance (&#8358;)</th>
                         <th data-field="price">Payment Plan Change Date</th>
@@ -35,7 +44,7 @@
                 <tbody>
                     {% for fellow in fellows  %}
                         <tr>
-                            <td><a href="#modal{{fellow.id}}" class="modal-trigger">{{fellow}}</a></td>
+                            <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{fellow}}</a></td>
                             {% if fellow.computer %}
                                 <td>{{fellow.computer}}</td>
                                 <td>{{fellow.computer.cost|intcomma}}</td>
@@ -43,9 +52,9 @@
                                 <td>--</td>
                                 <td>--</td>
                             {% endif %}
-                            <td>{{fellow.payment_start_date}}</td>
                             <td>{{fellow.recent_payment_plan.plan_duration}}</td>
-                            <td>{{fellow.monthly_payment}}</td>
+                            <td>{{fellow.monthly_payment|intcomma}}</td>
+                            <td>{{fellow.payment_start_date}}</td>
                             <td>{{fellow.amount_paid|intcomma}}</td>
                             <td>{{fellow.due_balance|intcomma}}</td>
                             <td>{{fellow.last_plan_change_date}}</td>
@@ -79,20 +88,27 @@
                             </div>
                             <a href="#!" class="modal-close modal-action"><i class="mdi-content-clear close-modal small"></i></a>
 
-                            <button class="btn waves-effect waves-light btn-large change-button" type="submit" name="action">Change Payment Plan
-                            </button>
-
-                            <button class="btn waves-effect waves-light red darken-1 btn-large terminate-button" type="submit" name="action">Terminate Payment
-                            </button>
+                            {% if fellow.payment_plans.last %}
+                                <button class="btn waves-effect waves-light btn-large change-button" type="submit" name="action">Change Payment Plan
+                                </button>
+                                <button class="btn waves-effect waves-light red darken-1 btn-large terminate-button" type="submit" name="action">Terminate Payment
+                                </button>
+                            {% else %}
+                                <h6>No Mac Payment Plan</h6>
+                                <div class="create-button">
+                                    <a href="{% url 'create-plan' pk=fellow.id %}">
+                                        <button class="btn waves-effect waves-light btn-large" name="action">Create Payment Plan
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </tbody>
             </table> 
 
         </div>
-
     </div>
     
-
-    
 {% endblock content %}
+
