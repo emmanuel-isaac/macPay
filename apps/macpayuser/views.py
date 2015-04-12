@@ -49,11 +49,11 @@ class DashboardView(View):
     def get(self, request):
         fellows = Fellow.objects.all()
         # Fellows with payment plans
-        # fellows_with_plan = []
-        # for fellow in fellows:
-        #     if fellow.payment_plan:
-        #         fellows_with_plan.append(fellow)
-        #     continue
+        fellows_with_plan = []
+        for fellow in fellows:
+            if fellow.payment_plans.last():
+                fellows_with_plan.append(fellow)
+            continue
         return render_to_response('dashboard.html', locals())
 
 
