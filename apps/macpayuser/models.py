@@ -107,12 +107,15 @@ class Fellow(models.Model):
 
     def get_monthly_payment(self):
         amount_paid_before_plan_change = self.amount_paid_before_plan_change
+        monthly_payment = '--'
         if amount_paid_before_plan_change != '--':
             balance = self.computer.cost - amount_paid_before_plan_change
             monthly_payment = float(balance) / float(self.payment_plans.last().plan_duration)
-            return monthly_payment
-        else:
-            return '--'
+            
+        elif self.payment_plans.last():
+            monthly_payment = float(self.computer.cost) / float(self.payment_plans.last().plan_duration)
+
+        return round(monthly_payment, 2)
 
     monthly_payment = property(get_monthly_payment)
 
