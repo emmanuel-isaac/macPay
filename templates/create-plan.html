@@ -1,0 +1,71 @@
+{% extends "base_site.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block local_css %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static "stylesheets/create-plan.css" %}">
+
+{% endblock local_css %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class='card-panel form-title'>
+            <h5>CREATE NEW MAC PAYMENT PLAN FOR:</h5>
+            <div class="divider"></div>
+            <h5>{{ fellow }}</h5>
+            <div class="divider"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="card form">
+            <form action="{% url 'create-plan' pk=fellow.id %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input type="hidden" name="fellow" value="{{fellow.id}}">
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                    <label>Select Mac</label>
+                        <select name='mac'>
+                        {% for computer in computers  %}
+                            <option value="{{computer.id}}">{{computer}} - &#8358;{{computer.cost|intcomma}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col s6">
+                        <label>Plan Duration:</label>
+                        {{form.plan_duration}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="date-created">Creation Date:</label>
+                    <input type="date" id="date-created" name="date_created" placeholder="Select Date">
+                </div>
+
+                <div class="create-button">
+                    <button class="btn waves-effect waves-light" name="action" type="submit">Create
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+{% block local_js %}
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            console.log("I'm fine");
+            $('select').material_select();
+        });
+    </script>
+
+{% endblock local_js %}
