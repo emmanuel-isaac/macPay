@@ -1,0 +1,15 @@
+{% extends "base_site.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class="card-panel" style="text-align: center">
+            <h4>Payment Plan Creation was successful</h4>
+            <a href="{% url 'dashboard' %}">
+                <button class="waves-effect btn">Go To Dashboard</button>
+            </a>
+        </div>
+    </div>
+
+{% endblock content %}
