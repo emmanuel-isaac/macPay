@@ -15,6 +15,21 @@ nav a {
    color: #424242 !important;
 }
 
+#search {
+    max-height: 80% !important;
+    font-style: italic;
+    font-size: 1rem;
+    /*border: thin black solid;*/
+}
+
+.search-wrapper {
+    padding: 0 5px;
+}
+
+.search-wrapper:hover {
+    background: none !important;
+}
+
 
 /************************/
 SECTION
@@ -27,11 +42,12 @@ SECTION
       rgba(0, 0, 0, 0.6),
       rgba(0, 0, 0, 0.6)
     ),url('../img/mac_image.jpg') no-repeat;
-  background-size: cover;
-  margin: 0 auto;
-  width: 100vw;
-  text-align: center;
-  height: 90.8vh;
+    background-size: cover;
+    margin: 0 auto;
+    width: 100vw;
+    text-align: center;
+    height: 90.8vh;
+    font-family: Raleway, sans-serif !important;
 }
 
 section {
@@ -51,11 +67,38 @@ section {
     color: #fff;
 }
 
-.section {
-    font-family: Raleway !important;
-}
 
 #login-modal {
     width: 30vw;
     height: 50vh;
 }
+
+footer {
+    background: #546e7a;
+    height: 300px;
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,98 @@
-{% extends "base.html" %}
+{% extends "base_site.html" %}
 {% load staticfiles %}
+{% load humanize %}
+
+{% block local_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/dashboard.css' %}">
+{% endblock local_css %}
 
 {% block content %}
+    <div class="fellow-summary card">
+        <ul>
+            <li>Total Number of Fellows: {{fellows.count}}</li>
+            <!--<li class='right'>Number of Fellows with Payment Plans: {{fellows_with_plan | length}}</li>-->
+        </ul>
+    </div>
+
+    <div class='the-container card'>
+        <div class="fellow-info">
+            <table class="striped bordered">
+                <thead>
+                    <tr>
+                        <th data-field="id">Fellow</th>
+                        <th data-field="name">Computer Model</th>
+                        <th data-field="price">Computer Value (&#8358;)</th>
+                        <th data-field="price">Payment Start Date</th>
+                        <th data-field="price">Payment Plan (months)</th>
+                        <th data-field="price">Monthly Payment (&#8358;)</th>
+                        <th data-field="price">Amount Paid (&#8358;)</th>
+                        <th data-field="price">Balance (&#8358;)</th>
+                        <th data-field="price">Payment Plan Change Date</th>
+                        <th data-field="price">Final Payment Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for fellow in fellows  %}
+                        <tr>
+                            <td><a href="#modal{{fellow.id}}" class="modal-trigger">{{fellow}}</a></td>
+                            {% if fellow.computer %}
+                                <td>{{fellow.computer}}</td>
+                                <td>{{fellow.computer.cost|intcomma}}</td>
+                            {% else %}
+                                <td>--</td>
+                                <td>--</td>
+                            {% endif %}
+                            <td>{{fellow.payment_start_date}}</td>
+                            <td>{{fellow.recent_payment_plan.plan_duration}}</td>
+                            <td>{{fellow.monthly_payment}}</td>
+                            <td>{{fellow.amount_paid|intcomma}}</td>
+                            <td>{{fellow.due_balance|intcomma}}</td>
+                            <td>{{fellow.last_plan_change_date}}</td>
+                            <td>{{fellow.tentative_payment_end}}</td>
+                        </tr>
+
+                        <!-- Modal Structure -->
+                        <div id="modal{{fellow.id}}" class="modal">
+                            <div class="modal-content">
+                                <h4>{{fellow.first_name}} {{fellow.last_name}}</h4>
+                                {% if fellow.payment_plans.last %}
+                                    <p>Payment Plan Status: Active</p>
+                                    <div class="divider"></div>
+                                    <div class="pay-info">
+                                        <div class="section row">
+                                            <h6 class="col s6">PAYMENT SUMMARY FOR: {{fellow.computer}}</h6>
+                                            <h6 class="col s6">VALUE: &#8358; {{fellow.computer.cost|intcomma}}</h6>
+                                        </div>
+                                        <div class="divider"></div>
+                                        <div class="section row">
+                                            <h6 class="col s6">CURRENT PAYMENT PLAN: {{fellow.payment_plans.last.plan_duration}} months</h6>
+                                            <h6 class="col s6">PAYMENT COMPLETION DATE: {{fellow.tentative_payment_end}}</h6>
+                                        </div>
+                                        <div class="divider"></div>
+                                        <div class="section row">
+                                            <h6 class="col s6">AMOUNT PAID: &#8358; {{fellow.amount_paid|intcomma}}</h6>
+                                            <h6 class="col s6">BALANCE: &#8358; {{fellow.due_balance|intcomma}}</h6>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <a href="#!" class="modal-close modal-action"><i class="mdi-content-clear close-modal small"></i></a>
+
+                            <button class="btn waves-effect waves-light btn-large change-button" type="submit" name="action">Change Payment Plan
+                            </button>
+
+                            <button class="btn waves-effect waves-light red darken-1 btn-large terminate-button" type="submit" name="action">Terminate Payment
+                            </button>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table> 
+
+        </div>
+
+    </div>
+    
+
     
 {% endblock content %}

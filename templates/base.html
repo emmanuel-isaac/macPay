@@ -6,7 +6,7 @@
     <meta charset='utf-8'>
     <link rel="stylesheet" type="text/css" href="{% static 'lib/materialize/css/materialize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/main.css' %}">
-    <link href='http://fonts.googleapis.com/css?family=Raleway:600' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400' rel='stylesheet' type='text/css'>
 
     {% block local_css %}
         
@@ -19,6 +19,19 @@
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="brand-logo">MacPay</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <div class="nav-wrapper search-wrapper">
+                                <form>
+                                    <div class="input-field">
+                                        <input id="search" type="search" class='grey-text text-darken-3' placeholder="Enter Fellow Name here" required>
+                                        <label for="search"><i class="mdi-action-search grey-text text-darken-3"></i></label>
+                                        <i class="mdi-navigation-close"></i>
+                                    </div>
+                              </form>
+                            </div>
+                        </li>
+                    {% endif %}
                     <li><a href="{% url 'home' %}">Home</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -38,6 +51,10 @@
             
         {% endblock content %}
     </section>
+
+    {% block footer %}
+        
+    {% endblock footer %}
 
     {% block local_js %}
         

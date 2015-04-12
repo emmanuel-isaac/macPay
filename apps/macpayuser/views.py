@@ -4,6 +4,9 @@ from django.views.generic import View
 from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 
+
+from apps.macpayuser.models import Fellow
+
 # Create your views here.
 
 
@@ -44,6 +47,13 @@ class LogoutView(View):
 # Class Based Dashboard View
 class DashboardView(View):
     def get(self, request):
+        fellows = Fellow.objects.all()
+        # Fellows with payment plans
+        # fellows_with_plan = []
+        # for fellow in fellows:
+        #     if fellow.payment_plan:
+        #         fellows_with_plan.append(fellow)
+        #     continue
         return render_to_response('dashboard.html', locals())
 
 
