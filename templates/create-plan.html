@@ -21,7 +21,7 @@
         <div class="divider"></div>
 
         <div class="card form">
-            <form action="{% url 'create-plan' pk=fellow.id %}" method="post">
+            <form action="{% url 'create_plan' pk=fellow.id %}" method="post">
                 {% csrf_token %}
                 <div>
                     <input type="hidden" name="fellow" value="{{fellow.id}}">
