@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
+from django.template import RequestContext
 
 
 from apps.macpayuser.models import Fellow
@@ -54,7 +55,7 @@ class DashboardView(View):
             if fellow.payment_plans.last():
                 fellows_with_plan.append(fellow)
             continue
-        return render_to_response('dashboard.html', locals())
+        return render_to_response('dashboard.html', locals(), context_instance=RequestContext(request))
 
 
 
