@@ -34,9 +34,14 @@
                     {% endif %}
                     <li><a href="{% url 'home' %}">Home</a></li>
                     {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                        <li><a href="{% url 'logout' %}">{{request.user.username}}</a></li>
                         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <a href="{% url 'dashboard' %}" class='dropdown-button' data-beloworigin="true" data-activates='dropdown1'><li>{{request.user.username}}</a></li>
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li class='drop-links'><a href="{% url 'admin:index' %}">Admininster site</a></li>
+                            <li class="divider"></li>
+                            <li class='drop-links'><a href="{% url 'logout' %}">Logout</a></li>
+                            <li class="divider"></li>
+                        </ul>
                     {% else %}
                         <li><a href="#login-modal" class="modal-trigger">Login</a></li>
                     {% endif %}
@@ -61,13 +66,22 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-                $('.modal-trigger').leanModal({
-                    dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                    opacity: .5, // Opacity of modal background
-                    in_duration: 300, // Transition in duration
-                    out_duration: 200, // Transition out duration
-                });
+            $('.modal-trigger').leanModal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: .5, // Opacity of modal background
+                in_duration: 300, // Transition in duration
+                out_duration: 200, // Transition out duration
             });
+
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false // Displays dropdown below the button
+            });
+        });
     </script>
 
     {% block local_js %}

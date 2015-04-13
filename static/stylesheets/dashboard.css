@@ -16,7 +16,7 @@
 
 .the-container {
     text-align: center;
-    min-height: 80vh;
+    min-height: 50vh;
     padding: 20px;
 }
 
@@ -30,7 +30,7 @@ th {
 
 .fellow-info {
     overflow-x: scroll;
-    min-height: 80vh;
+    min-height: 50vh;
 }
 
 td {

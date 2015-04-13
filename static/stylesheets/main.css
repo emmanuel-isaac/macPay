@@ -15,11 +15,16 @@ nav a {
    color: #424242 !important;
 }
 
+.drop-links a {
+    color: #424242 !important;
+    font-size: .85rem;
+    font-style: italic;
+}
+
 #search {
     max-height: 80% !important;
     font-style: italic;
     font-size: 1rem;
-    /*border: thin black solid;*/
 }
 
 .search-wrapper {
