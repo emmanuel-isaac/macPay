@@ -128,14 +128,3 @@ class Fellow(models.Model):
 
     
     tentative_payment_end = property(get_tentative_payment_end)
-
-
-
-
-
-
-
-
-
-
-

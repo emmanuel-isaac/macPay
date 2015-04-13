@@ -56,14 +56,3 @@ class DashboardView(View):
                 fellows_with_plan.append(fellow)
             continue
         return render_to_response('dashboard.html', locals(), context_instance=RequestContext(request))
-
-
-
-
-
-
-
-
-
-
-
