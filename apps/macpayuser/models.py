@@ -28,8 +28,8 @@ class StaffUser(models.Model):
 class Fellow(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, blank=True, null=True)
     computer = models.ForeignKey(Computer, blank=True, null=True)
-    # payment_plan = models.ForeignKey(PaymentPlan, blank=True, null=True)
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
