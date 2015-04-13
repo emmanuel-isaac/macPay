@@ -9,7 +9,7 @@ from apps.macpayuser.views import (
     LogoutView,
     DashboardView,
 )
-from apps.payment.views import CreatePlanView, create_plan_success, SyncPaymentView
+from apps.payment.views import CreatePlanView, success, SyncPaymentView, ChangePaymentPlanView
 
 urlpatterns = patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^dashboard/', login_required( DashboardView.as_view() ), name='dashboard'),
     url(r'^createplan/(?P<pk>\d+)/$', login_required( CreatePlanView.as_view() ), name='create_plan'),
-    url(r'^create-plan-success/$', create_plan_success, name='create_plan_success'),
+    url(r'^payment/success/$', success, name='success'),
     url(r'^sync-payment/$', login_required( SyncPaymentView.as_view() ), name='sync_payment'),
+    url(r'^payment/change-plan/(?P<pk>\d+)/$', login_required( ChangePaymentPlanView.as_view() ), name='change_plan'),
 )
