@@ -28,7 +28,7 @@
                 </div>
                 <div class="row">
                     <div class="col s6">
-                    <label>Select Mac</label>
+                        <label>Select Mac</label>
                         <select name='mac'>
                         {% for computer in computers  %}
                             <option value="{{computer.id}}">{{computer}} - &#8358;{{computer.cost|intcomma}}</option>
@@ -43,8 +43,8 @@
                 </div>
 
                 <div class="row">
-                    <label for="date-created">Creation Date:</label>
-                    <input type="date" id="date-created" name="date_created" placeholder="Select Date">
+                    <label for="date">Creation Date:</label>
+                    <input type="date" id="date" name="date_created" placeholder="Select Date">
                 </div>
 
                 <div class="create-button">
@@ -63,8 +63,17 @@
     
     <script type="text/javascript">
         $(document).ready(function() {
-            console.log("I'm fine");
             $('select').material_select();
+
+            var now = new Date();
+            var month = (now.getMonth() + 1);               
+            var day = now.getDate();
+            if(month < 10) 
+                month = "0" + month;
+            if(day < 10) 
+                day = "0" + day;
+            var today = now.getFullYear() + '-' + month + '-' + day;
+            $('#date').val(today);
         });
     </script>
 

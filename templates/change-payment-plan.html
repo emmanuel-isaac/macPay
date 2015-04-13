@@ -1,0 +1,84 @@
+{% extends "base_site.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block local_css %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/change-payment-plan.css' %}">
+
+{% endblock local_css %}
+
+{% block content %}
+    
+    <div class='container'>
+        <div class='card-panel'>
+            <h5>PAYMENT PLAN CHANGE FOR:</h5>
+            <h5>{{fellow}}</h5>
+        </div>
+
+        <div class='card form'>
+            <form action='{% url "change_plan" pk=fellow.id %}' method='post'>{% csrf_token %}
+                <input type='hidden' name='fellow' value='{{fellow.id}}'>
+                <div class="row">
+                    <div class="col s6">
+                        <label>Computer</label>
+                        <input type='text' disabled value='{{fellow.computer}}'>
+                    </div>
+                    <div class="col s6">
+                        <label>Balance</label>
+                        <input type='text' disabled value='&#8358;{{fellow.due_balance|intcomma}}'>
+                    </div> 
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        <label for="plan_duration">Select Payment Plan Duration</label>
+                        <select name='plan_duration' id="plan_duration">
+                            <option value='12'>12 months</option>
+                            <option value='24'>24 months</option>
+                            <option value='36'>36 months</option>
+                            <option value='48'>48 months</option>
+                        </select>
+                    </div> 
+                </div>
+                <div class='row'>
+                    <div class="col s12">
+                        <label>Payment Plan Change Date</label>
+                        <input type='date' value='' name='date_created' id='date'>
+                    </div>
+                </div>
+                <div class="submit-button">
+                    <button type='submit' class='btn waves waves-effect'>Submit</button>
+                </div>
+            </form>    
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block local_js %}
+    
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $('select').material_select();
+
+            var now = new Date();
+            var month = (now.getMonth() + 1);               
+            var day = now.getDate();
+            if(month < 10) 
+                month = "0" + month;
+            if(day < 10) 
+                day = "0" + day;
+            var today = now.getFullYear() + '-' + month + '-' + day;
+            $('#date').val(today);
+        });
+    </script>
+
+{% endblock local_js %}
+
+
+
+
+
+
+
