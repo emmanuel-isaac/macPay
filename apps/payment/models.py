@@ -24,7 +24,7 @@ class PaymentHistory(models.Model):
 
     fellow = models.ForeignKey('macpayuser.Fellow', related_name='payment_histories')
     date = models.DateField(default=datetime.datetime.now())
-    sum_paid = models.DecimalField(null=False, blank=False, max_digits=100)
+    sum_paid = models.DecimalField(null=False, blank=False, max_digits=100, decimal_places=2)
     payment_plan = models.ForeignKey(PaymentPlan, null=False, blank=False)
 
     def __str__(self):
