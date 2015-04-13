@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 
 
@@ -35,6 +36,7 @@ class CreatePlanView(View):
             print request.POST.get('mac', '')
             return HttpResponseRedirect(reverse('create_plan_success'))
 
+@login_required
 def create_plan_success(request):
     return render_to_response('create-plan-success.html', locals())
 

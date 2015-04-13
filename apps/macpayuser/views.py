@@ -34,9 +34,9 @@ class LoginView(View):
                 login(request, user)
                 return HttpResponseRedirect(reverse('dashboard'), locals())
             else:
-                print "nay"
+                print HttpResponseRedirect(reverse('home'))
 
-        return HttpResponse('Done')
+        return HttpResponseRedirect(reverse('home'))
 
 # Class Based Logout View
 class LogoutView(View):
