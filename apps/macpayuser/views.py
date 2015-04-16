@@ -16,7 +16,7 @@ from apps.macpayuser.models import Fellow
 class HomeView(View):
 
     def get(self, request):
-        return render_to_response('index.html', locals())
+        return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
 # Class Based Login View
 class LoginView(View):
