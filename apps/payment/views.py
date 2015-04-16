@@ -49,7 +49,7 @@ class SyncPaymentView(View):
             except AttributeError, e:
                 last_payment_date = ''
             current_date = datetime.datetime.now().strftime('%m %y')
-            if last_payment_date != current_date and fellow.computer:
+            if last_payment_date != current_date and fellow.computer and fellow.recent_payment_plan:
                 payment_history = PaymentHistory(fellow=fellow, sum_paid=fellow.monthly_payment, payment_plan=fellow.recent_payment_plan)
                 payment_history.save()
                 print payment_history
