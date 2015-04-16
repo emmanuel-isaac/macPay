@@ -1,1 +1,1 @@
-web:gunicorn macPay.wsgi --log-file -
+web: gunicorn macPay.wsgi --log-file -
