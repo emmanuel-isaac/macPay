@@ -1,0 +1,13 @@
+.container {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.form {
+    padding: 2%;
+    text-align: left;
+}
+
+.submit-button {
+    text-align: center;
+}

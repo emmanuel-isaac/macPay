@@ -106,16 +106,18 @@ class Fellow(models.Model):
     due_balance = property(get_due_balance)
 
     def get_monthly_payment(self):
-        amount_paid_before_plan_change = self.amount_paid_before_plan_change
-        monthly_payment = '--'
-        if amount_paid_before_plan_change != '--':
-            balance = self.computer.cost - amount_paid_before_plan_change
-            monthly_payment = float(balance) / float(self.payment_plans.last().plan_duration)
-            
-        elif self.payment_plans.last():
-            monthly_payment = float(self.computer.cost) / float(self.payment_plans.last().plan_duration)
-
-        return round(monthly_payment, 2)
+        # monthly payment at any point 
+        # should be the balance at that point divided by the number of months left on the plan
+        if self.payment_histories.all():
+            balance = self.due_balance
+            number_of_months_left = self.recent_payment_plan.months_left_on_plan
+            monthly_payment = float(balance) / float(number_of_months_left)
+            return round(monthly_payment, 2)
+        elif self.computer and self.recent_payment_plan != '--':
+            monthly_payment = float(self.computer.cost) / float(self.recent_payment_plan.months_left_on_plan)
+            return round(monthly_payment, 2)
+        else:
+            return '--'
 
     monthly_payment = property(get_monthly_payment)
 

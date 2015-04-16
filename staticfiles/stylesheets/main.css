@@ -1,0 +1,109 @@
+/************************/
+HEADER
+/*************************/
+
+.brand-logo {
+    margin-left: 10vw;
+}
+
+nav {
+    background: #e0f7fa;
+    padding-right: 5vw;
+}
+
+nav a {
+   color: #424242 !important;
+}
+
+.drop-links a {
+    color: #424242 !important;
+    font-size: .85rem;
+    font-style: italic;
+}
+
+#search {
+    max-height: 80% !important;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.search-wrapper {
+    padding: 0 5px;
+}
+
+.search-wrapper:hover {
+    background: none !important;
+}
+
+
+/************************/
+SECTION
+/*************************/
+
+.home-body {
+    height: 350px;
+    width: 99vw;
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ),url('../img/mac_image.jpg') no-repeat;
+    background-size: cover;
+    margin: 0 auto;
+    width: 100vw;
+    text-align: center;
+    height: 90.8vh;
+    font-family: Raleway, sans-serif !important;
+}
+
+section {
+    min-height: 90.8vh;
+}
+
+.welcome-message {
+    min-height: 40vh;
+    width: 80vw;
+    margin: 0 auto 50px;
+    padding: 50px 0 0;
+    line-height: 30px;
+    font-size: 1.5rem;
+}
+
+.flow-text {
+    color: #fff;
+}
+
+
+#login-modal {
+    width: 30vw;
+    height: 50vh;
+}
+
+footer {
+    background: #546e7a;
+    height: 300px;
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

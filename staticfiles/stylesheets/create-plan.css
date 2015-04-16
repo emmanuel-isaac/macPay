@@ -1,0 +1,15 @@
+.form-title {
+    text-align: center;
+}
+
+form {
+    width: 80%;
+}
+
+.form {
+    padding: 5%;
+}
+
+.create-button {
+    text-align: right;
+}
