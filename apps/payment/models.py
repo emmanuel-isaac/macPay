@@ -36,11 +36,3 @@ class PaymentHistory(models.Model):
 
     def __str__(self):
         return '{} - {} paid the sum of {}'.format(self.date, self.fellow, self.sum_paid)
-
-    # I have to determine the last Payment History of a particular fellow
-
-
-
-
-
-
