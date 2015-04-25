@@ -49,8 +49,8 @@ class EditComputerView(View):
 
     def post(self, request, pk):
         form = ComputerCreationForm(request.POST)
+        computer = Computer.objects.get(pk=pk)
         if form.is_valid():
-            computer = Computer.objects.get(pk=pk)
             computer.name = request.POST.get('name')
             computer.model = request.POST.get('model')
             computer.cost = request.POST.get('cost')
