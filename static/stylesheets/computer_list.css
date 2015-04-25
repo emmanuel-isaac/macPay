@@ -1,0 +1,25 @@
+.contain {
+    margin: 2%;
+    text-align: center;
+}
+
+.comp-col {
+    min-height: 300px;
+    max-height: 300px;
+    text-align: center;
+}
+
+.com-info {
+    max-height: 280px;
+    min-height: 280px;
+}
+
+.mac-img {
+    max-height: 200px;
+    width: 100% !important;
+    text-align: center;
+}
+
+.mac-img img {
+    max-height: 200px;
+}
