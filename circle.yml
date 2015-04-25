@@ -1,0 +1,8 @@
+machine:
+  environment:
+    DJANGO_SETTINGS_MODULE: macPay.settings.dev
+    DEBUG: False
+
+dependencies:
+  override:
+    - pip install -r requirements/dev.txt
