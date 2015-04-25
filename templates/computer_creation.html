@@ -1,0 +1,66 @@
+{% extends "base_site.html" %}
+{% load staticfiles %}
+
+{% block local_css %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/computer-creation.css' %}">
+
+{% endblock local_css %}
+
+{% block content %}
+    
+    <div class="container">
+        <a href="{% url 'dashboard' %}">Go Back To Dashboard</a>
+        {% if computer %}
+            
+            <form method='POST' action='{% url "computer_edit" pk=computer.id %}'>{% csrf_token %}
+                <input type='hidden' name='pk' value='{{ computer.id }}'/>
+                <div>
+                    {{form.name.errors}}
+                    <label for='name'>Name</label>
+                    <input type='text' id='name' name='name' value='{{computer.name}}' /> 
+                </div>
+                <div>
+                    {{form.model.errors}}
+                    <label for='model'>Model</label>
+                    <input type='text' id='model' name='model' value='{{computer.model}}' /> 
+                </div>
+                <div>
+                    {{form.cost.errors}}
+                    <label for='cost'>Cost</label>
+                    <input type='number' id='cost' name='cost' value='{{computer.cost}}' /> 
+                </div>
+                <div>
+                    <button type='submit'>Edit</button>
+                </div>
+            </form>
+        {% else %}
+            <form method='POST' action='{% url "computer_create" %}'>{% csrf_token %}
+                <div>
+                    {{form.name.errors}}
+                    <label for='name'>Name</label>
+                    {{form.name}} 
+                </div>
+                <div>
+                    {{form.model.errors}}
+                    <label for='model'>Model</label>
+                    {{form.model}} 
+                </div>
+                <div>
+                    {{form.cost.errors}}
+                    <label for='cost'>Cost</label>
+                    {{form.cost}} 
+                </div>
+                <div>
+                    <button type='submit'>Create</button>
+                </div>
+            </form>
+        {% endif %}
+        
+    </div>
+
+{% endblock content %}
+
+{% block local_js %}
+    
+{% endblock local_js %}

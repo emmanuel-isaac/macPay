@@ -1,0 +1,48 @@
+{% extends "base_site.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block local_css %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/computer_list.css' %}">
+
+{% endblock local_css %}
+
+{% block content %}
+    
+    <div class='contain'>
+        <a href="{% url 'computer_create' %}">
+            <button>Add New Computer</button>
+        </a>
+
+        <h5>ALL COMPUTERS</h5>
+
+        <div class='row'>
+        {% for computer in object_list  %}
+            <div class='col s3 comp-col'>
+                <div style='margin: 5px' class='com-info card'>
+                    <div class='mac-img'>
+                        <a href="{% url 'computer_edit' pk=computer.id %}" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Edit Computer Details">
+                            <span>{{ computer }} <i class='mdi-editor-mode-edit'></i></span>
+                        </a>
+                        <img src="{% static 'img/mac-pic.jpeg' %}">
+                    </div>
+
+                    <p>Cost: &#8358;{{ computer.cost|intcomma }}</p>
+                </div>
+            </div>  
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block local_js %}
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.tooltipped').tooltip({delay: 50});
+        });
+    </script>   
+
+{% endblock local_js %}
