@@ -34,6 +34,10 @@ class FellowTestCase(TestCase):
         self.assertEqual(ifedapo.last_name, 'Olarewaju')
         self.assertEqual(ifedapo.computer, self.computer)
         self.assertEqual(ifedapo.email, 'ifedapoolarewaju@andela.co')
+        
+
+    def test_fellow_methods(self):
+        ifedapo = Fellow.objects.get(first_name='Ifedapo')
         self.assertEqual(ifedapo.recent_payment_plan, self.payment_plan)
         self.assertEqual(ifedapo.amount_paid, 40000.00)
         self.assertEqual(ifedapo.due_balance, 160000.00)
