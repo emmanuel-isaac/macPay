@@ -1,17 +1,22 @@
+# Django Modules
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
+from django.http import HttpResponse
+
+# Python Modules
+import csv
 
 
+# Local Modules
 from apps.macpayuser.models import Fellow
 
+
+
 # Create your views here.
-
-
-
 # Class Based Home View
 class HomeView(View):
 
@@ -56,3 +61,39 @@ class DashboardView(View):
                 fellows_with_plan.append(fellow)
             continue
         return render_to_response('dashboard.html', locals(), context_instance=RequestContext(request))
+
+
+def download_payment_data(request):
+    # Get all fellows 
+    fellows = Fellow.objects.all()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="payment_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Fellow', 'Computer Model', 'Computer Cost', 'Payment Plan (months)', 'Monthly Payment', 'Payment Start Date', 'Amount Paid', 'Balance', 'Payment Plan Change Date', 'Final Payment Date'])
+
+    for fellow in fellows:
+        writer.writerow([fellow.first_name + ' ' + fellow.last_name, fellow.computer.name + ' ' + fellow.computer.model, fellow.computer.cost, fellow.recent_payment_plan.plan_duration, fellow.monthly_payment, fellow.payment_start_date, fellow.amount_paid, fellow.due_balance, fellow.last_plan_change_date, fellow.last_plan_change_date  ])
+        continue
+
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
