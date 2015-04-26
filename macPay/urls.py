@@ -8,6 +8,7 @@ from apps.macpayuser.views import (
     LoginView,
     LogoutView,
     DashboardView,
+    download_payment_data,
 )
 from apps.payment.views import CreatePlanView, success, SyncPaymentView, ChangePaymentPlanView
 from apps.computer.views import CreateComputerView, ComputerListView, EditComputerView
@@ -25,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^computer/list/$', login_required( ComputerListView.as_view() ), name='computer_list'),
     url(r'^computer/create/$', login_required( CreateComputerView.as_view() ), name='computer_create'),
     url(r'^computer/edit/(?P<pk>\d+)/$', login_required( EditComputerView.as_view() ), name='computer_edit'),
+    url(r'^download_payment_data/$', download_payment_data, name='download_payment_data'),
 )
