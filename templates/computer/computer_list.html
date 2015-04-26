@@ -11,12 +11,14 @@
 {% block content %}
     
     <div class='contain'>
-        <a href="{% url 'computer_create' %}">
-            <button>Add New Computer</button>
-        </a>
-
-        <h5>ALL COMPUTERS</h5>
-
+        <ul>
+            <li class='right'>
+                <a href="{% url 'computer_create' %}">
+                    <button class='btn waves'>Add New Computer</button>
+                </a>   
+            </li>
+            <li><h5>ALL COMPUTERS</h5></li>
+        </ul>
         <div class='row'>
         {% for computer in object_list  %}
             <div class='col s3 comp-col'>

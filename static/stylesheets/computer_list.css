@@ -1,5 +1,5 @@
 .contain {
-    margin: 2%;
+    margin: 2% 7%;
     text-align: center;
 }
 
@@ -22,4 +22,22 @@
 
 .mac-img img {
     max-height: 200px;
+}
+
+.mac-img a {
+    color: #26a69a;
+    text-transform: none;
+}
+
+.mac-img a:hover {
+    color: #64b5f6;
+}
+
+.contain ul li {
+    display: inline-block;
+}
+
+.contain ul {
+    text-align: left;
+    padding: 0 15px;
 }
