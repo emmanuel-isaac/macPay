@@ -7,12 +7,12 @@ HEADER
 }
 
 nav {
-    background: #e0f7fa;
+    background: #26a69a;
     padding-right: 5vw;
 }
 
 nav a {
-   color: #424242 !important;
+   color: #fff !important;
 }
 
 .drop-links a {
