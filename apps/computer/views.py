@@ -36,7 +36,7 @@ class CreateComputerView(View):
         if form.is_valid():
             form.save()
             request.session['status'] = 'create'
-            return HttpResponseRedirect(reverse('success'))
+            return HttpResponseRedirect(reverse('computer_list'))
 
         return render_to_response('computer_creation.html', locals(), context_instance=RequestContext(request))
 

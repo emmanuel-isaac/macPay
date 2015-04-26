@@ -5,3 +5,11 @@
 .container {
     margin: 5% auto;
 }
+
+.dashboard-back {
+    text-align: right;
+}
+
+.dashboard-back a:hover {
+    color: #64b5f6;
+}
