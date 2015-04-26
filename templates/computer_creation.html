@@ -10,7 +10,7 @@
 {% block content %}
     
     <div class="container">
-        <a href="{% url 'dashboard' %}">Go Back To Dashboard</a>
+        <a href="{% url 'dashboard' %}" class='right'><i class="mdi-navigation-arrow-back left"></i>Go Back To Dashboard</a>
         {% if computer %}
             
             <form method='POST' action='{% url "computer_edit" pk=computer.id %}'>{% csrf_token %}
@@ -52,7 +52,7 @@
                     {{form.cost}} 
                 </div>
                 <div>
-                    <button type='submit'>Create</button>
+                    <button type='submit' class='btn waves right'>Create</button>
                 </div>
             </form>
         {% endif %}
