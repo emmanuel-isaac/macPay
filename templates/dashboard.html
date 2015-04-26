@@ -18,12 +18,16 @@
 
 
     <div class='the-container card'>
-        <div class="sync-btn">
-            <a href="{% url 'sync_payment' %}">
-                <button class="btn waves-effect waves-light btn-large" name="action">Sync Payment
-                </button>
-            </a>
-        </div>
+        <ul>
+            <li>
+                <a href="{% url 'sync_payment' %}" class="btn waves-effect waves-light btn-large white-text">Sync Payment
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'download_payment_data' %}" class="btn waves-effect waves-light btn-large white-text">Download As CSV
+                </a>
+            </li>
+        </ul>
         <div class="divider"></div>
         
         <div class="fellow-info">

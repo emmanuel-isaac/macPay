@@ -20,12 +20,20 @@
     padding: 20px;
 }
 
-th {
-    min-width: 200px !important;
+.the-container ul li {
+    display: inline-block;
 }
 
-.sync-btn {
+.the-container ul li a:hover {
+    color: #fff !important;
+}
+
+.the-container ul {
     text-align: right;
+}
+
+th {
+    min-width: 200px !important;
 }
 
 .fellow-info {
