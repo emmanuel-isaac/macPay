@@ -35,6 +35,7 @@ class CreateComputerView(View):
         form = ComputerCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            request.session['status'] = 'create'
             return HttpResponseRedirect(reverse('success'))
 
         return render_to_response('computer_creation.html', locals(), context_instance=RequestContext(request))
@@ -55,6 +56,7 @@ class EditComputerView(View):
             computer.model = request.POST.get('model')
             computer.cost = request.POST.get('cost')
             computer.save()
+            request.session['status'] = 'change'
             return HttpResponseRedirect(reverse('success'))
 
         else:
