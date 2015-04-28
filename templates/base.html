@@ -35,7 +35,7 @@
                     <li><a href="{% url 'home' %}">Home</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                        <a href="{% url 'dashboard' %}" class='dropdown-button' data-beloworigin="true" data-activates='dropdown1'><li>{{request.user.username}}</a></li>
+                        <li><a href="#" class='dropdown-button' data-beloworigin="true" data-activates='dropdown1'>{{ request.user.username }}<b class='caret'></b></a></li>
                         <ul id='dropdown1' class='dropdown-content'>
                             <li class='drop-links'><a href="{% url 'admin:index' %}">Admininster site</a></li>
                             <li class="divider"></li>
