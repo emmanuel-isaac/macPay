@@ -101,3 +101,5 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     'templates',
 )
+
+SKILLTREE_API_URL = "http://skilltree.andela.co/api/v1/users"
