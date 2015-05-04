@@ -13,6 +13,7 @@ import csv
 
 # Local Modules
 from apps.macpayuser.models import Fellow
+from services.skilltree import *
 
 
 
@@ -53,6 +54,22 @@ class LogoutView(View):
 # Class Based Dashboard View
 class DashboardView(View):
     def get(self, request):
+        # Make API request to SkillTree to get the data of all fellows
+        skilltree_instance = SkillTree()
+
+        # instantiate params
+        params = { 'page': 1 }
+        data = []
+
+        # The API request
+        while SkillTree.get_data(skilltree_instance, params):
+            response = SkillTree.get_data(skilltree_instance, params)
+            data = data + response
+            params['page'] += 1
+            continue
+
+        print data
+
         fellows = Fellow.objects.all()
         # Fellows with payment plans
         fellows_with_plan = []

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 THIRD_PARTY_APPS = (
     'envvars',
+    'djcelery',
 )
 
 LOCAL_APPS = (
@@ -103,3 +104,4 @@ TEMPLATE_DIRS = (
 )
 
 SKILLTREE_API_URL = "http://skilltree.andela.co/api/v1/users"
+X_AUTH_TOKEN = "txPFk-ppyzzI0f6iAoF3jC3amGUosLsabznp26gUxn0"
