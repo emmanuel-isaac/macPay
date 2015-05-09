@@ -6,13 +6,7 @@ import datetime
 
 
 class PaymentPlan(models.Model):
-    DURATION = (
-        ('12', '12'),
-        ('24', '24'),
-        ('36', '36'),
-        ('48', '48'),
-    )
-    plan_duration = models.CharField(choices=DURATION, blank=False, null=False, max_length=5)
+    plan_duration = models.PositiveSmallIntegerField(blank=False)
     fellow = models.ForeignKey('macpayuser.Fellow', related_name='payment_plans')
     date_created = models.DateField(default=datetime.datetime.now())
 
