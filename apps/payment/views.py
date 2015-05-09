@@ -35,6 +35,8 @@ class CreatePlanView(View):
             fellow.save()
             request.session['status'] = 'create'
             return HttpResponseRedirect(reverse('success'))
+        else:
+            return render_to_response('create-plan.html', locals(), context_instance=RequestContext(request))
 
 @login_required
 def success(request):
