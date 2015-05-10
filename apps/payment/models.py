@@ -6,7 +6,7 @@ import datetime
 
 
 class PaymentPlan(models.Model):
-    plan_duration = models.PositiveSmallIntegerField(blank=False)
+    plan_duration = models.PositiveIntegerField(blank=False)
     fellow = models.ForeignKey('macpayuser.Fellow', related_name='payment_plans')
     date_created = models.DateField(default=datetime.datetime.now())
 
