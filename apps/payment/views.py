@@ -12,18 +12,10 @@ from apps.payment.forms import PaymentPlanForm
 from apps.computer.models import Computer
 from apps.payment.models import PaymentHistory, PaymentPlan
 
+from services.core_functions import create_payment_history
+
 
 # Create your views here.
-def create_payment_history(months, fellow):
-    payment_plan = fellow.recent_payment_plan
-    computer_cost = fellow.computer.cost
-    sum_paid = float(computer_cost) / payment_plan.plan_duration
-    for i in xrange(0, months):
-        payment = PaymentHistory(fellow=fellow, sum_paid=sum_paid, payment_plan=payment_plan)
-        payment.save()
-        continue
-    return 'Created'
-
 class CreatePlanView(View):
     def get(self, request, pk):
         fellow = Fellow.objects.get(pk=pk)
