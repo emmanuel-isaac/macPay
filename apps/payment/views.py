@@ -41,6 +41,12 @@ class CreatePlanView(View):
             fellow = Fellow.objects.get(pk=pk)
             fellow.computer = mac
             fellow.save()
+            try:
+                prior_payment = int(request.POST.get('prior_pays', ''))
+                if prior_payment:
+                    create_payment_history(prior_payment, fellow)
+            except Exception, e:
+                pass
             request.session['status'] = 'create'
             return HttpResponseRedirect(reverse('success'))
         else:
