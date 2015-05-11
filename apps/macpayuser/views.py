@@ -76,8 +76,9 @@ def download_payment_data(request):
     writer.writerow(['Fellow', 'Computer Model', 'Computer Cost', 'Payment Plan (months)', 'Monthly Payment', 'Payment Start Date', 'Amount Paid', 'Balance', 'Payment Plan Change Date', 'Final Payment Date'])
 
     for fellow in fellows:
-        writer.writerow([fellow.first_name + ' ' + fellow.last_name, fellow.computer.name + ' ' + fellow.computer.model, fellow.computer.cost, fellow.recent_payment_plan.plan_duration, fellow.monthly_payment, fellow.payment_start_date, fellow.amount_paid, fellow.due_balance, fellow.last_plan_change_date, fellow.last_plan_change_date  ])
-        continue
+        if fellow.payment_histories.all():
+            writer.writerow([fellow.first_name + ' ' + fellow.last_name, fellow.computer.name + ' ' + fellow.computer.model, fellow.computer.cost, fellow.recent_payment_plan.plan_duration, fellow.monthly_payment, fellow.payment_start_date, fellow.amount_paid, fellow.due_balance, fellow.last_plan_change_date, fellow.last_plan_change_date  ])
+            continue
 
     return response
 
