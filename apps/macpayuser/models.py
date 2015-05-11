@@ -111,7 +111,9 @@ class Fellow(models.Model):
         if self.payment_histories.all():
             balance = self.due_balance
             number_of_months_left = self.recent_payment_plan.months_left_on_plan
-            monthly_payment = float(balance) / float(number_of_months_left)
+            monthly_payment = 0
+            if number_of_months_left > 0:
+                monthly_payment = float(balance) / float(number_of_months_left)
             return round(monthly_payment, 2)
         elif self.computer and self.recent_payment_plan != '--':
             monthly_payment = float(self.computer.cost) / float(self.recent_payment_plan.months_left_on_plan)
