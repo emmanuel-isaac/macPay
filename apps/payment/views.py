@@ -26,23 +26,24 @@ class CreatePlanView(View):
 
     def post(self, request, pk):
         form = PaymentPlanForm(request.POST)
+        fellow = Fellow.objects.get(pk=pk)
         if form.is_valid():
             form.save()
             mac_id = request.POST.get('mac', '')
-            mac = Computer.objects.get(pk=mac_id)
-            fellow = Fellow.objects.get(pk=pk)
-            fellow.computer = mac
-            fellow.save()
-            try:
-                prior_payment = int(request.POST.get('prior_pays', ''))
-                if prior_payment:
-                    create_payment_history(prior_payment, fellow)
-            except Exception, e:
-                pass
-            request.session['status'] = 'create'
-            return HttpResponseRedirect(reverse('success'))
-        else:
-            return render_to_response('create-plan.html', locals(), context_instance=RequestContext(request))
+            if mac_id:
+                mac = Computer.objects.get(pk=mac_id)
+                fellow.computer = mac
+                fellow.save()
+                try:
+                    prior_payment = int(request.POST.get('prior_pays', ''))
+                    if prior_payment:
+                        create_payment_history(prior_payment, fellow)
+                except Exception, e:
+                    pass
+                request.session['status'] = 'create'
+                return HttpResponseRedirect(reverse('success'))
+
+        return render_to_response('create-plan.html', locals(), context_instance=RequestContext(request))
 
 @login_required
 def success(request):
