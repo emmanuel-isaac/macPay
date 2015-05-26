@@ -14,7 +14,10 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 # Static asset configuration
-STATIC_ROOT = 'staticfiles'
+#STATIC_ROOT = 'staticfiles'
+import os
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DATABASES = {
     'default': dj_database_url.config(),
