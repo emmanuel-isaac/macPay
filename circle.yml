@@ -8,4 +8,4 @@ dependencies:
     - pip install -r requirements/dev.txt
   post:
     - python manage.py runserver
-        background: true
+      background: true
