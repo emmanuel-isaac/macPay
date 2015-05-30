@@ -5,6 +5,7 @@
 {% block local_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/dashboard.css' %}">
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 {% endblock local_css %}
 
 {% block content %}
@@ -31,7 +32,7 @@
         <div class="divider"></div>
         
         <div class="fellow-info">
-            <table class="striped bordered">
+            <table id="fellows-table" class="striped bordered">
                 <thead>
                     <tr>
                         <th data-field="id">Fellow</th>
@@ -48,8 +49,6 @@
                 </thead>
 
                 <tbody>
-                    {% load endless %}
-                    {% paginate 20 fellows %}
                     {% for fellow in fellows  %}
                         <tr>
                             <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{fellow}}</a></td>
@@ -114,17 +113,25 @@
                             {% endif %}
                         </div>
                     {% endfor %}
-                    {% get_pages %}
                 </tbody>
             </table> 
-            Showing {{ pages.current_start_index }}-{{ pages.current_end_index }} of
-            {{ pages.total_count }}.
-            {% if pages.paginated %}
-            <br/>
-            {{ pages }}
-            {% endif %}
         </div>
     </div>
     
 {% endblock content %}
+
+{% block local_js %}
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var oTable = $('#fellows-table').dataTable({
+                "iDisplayLength": 20,
+                "sDom": '<"top">tip'
+                });
+            $('#search').keyup(function(){
+                oTable.fnFilter($(this).val());
+            });
+        });        
+    </script>
+{% endblock local_js %}
 

@@ -17,4 +17,3 @@ sqlparse==0.1.14
 static3==0.5.1
 whitenoise==1.0.6
 requests==2.7.0
-django-endless-pagination==2.0
