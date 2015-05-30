@@ -6,8 +6,6 @@ machine:
 dependencies:
   override:
     - pip install -r requirements/dev.txt
-
-test:
-  pre:
+  post:
     - python manage.py runserver
         background: true
