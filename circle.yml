@@ -10,3 +10,4 @@ dependencies:
 test:
   pre:
     - python manage.py runserver
+        background: true
