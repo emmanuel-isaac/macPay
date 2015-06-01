@@ -29,6 +29,7 @@ class HomePage(unittest.TestCase):
         session_items = create_session_store()
 
         driver.get("http://127.0.0.1:8000/login")
+        self.assertIn("MacPay", driver.title) 
         login = driver.find_element_by_id("login_to_continue").click()
         username = driver.find_element_by_name("username")
         username.send_keys("andela")
@@ -42,7 +43,6 @@ class HomePage(unittest.TestCase):
         driver.add_cookie({'name':'sessionid', 'value': 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'})
 
         driver.get("http://127.0.0.1:8000/dashboard/")  
-        self.assertIn("MacPay", driver.title) 
         #check for pagination
         paginate = driver.find_element_by_css_selector("#fellows-table tbody")
         #check if paginated items in current page is no more than 20
