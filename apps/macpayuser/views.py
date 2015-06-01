@@ -40,7 +40,7 @@ class LoginView(View):
                 login(request, user)
                 return HttpResponseRedirect(reverse('dashboard'), locals())
             else:
-                print HttpResponseRedirect(reverse('home'))
+                return HttpResponseRedirect(reverse('home'))
 
         return HttpResponseRedirect(reverse('home'))
 
