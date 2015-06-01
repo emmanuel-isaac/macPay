@@ -1,6 +1,9 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -44,15 +47,17 @@ class HomePage(unittest.TestCase):
 
         driver.get("http://127.0.0.1:8000/dashboard/")
 
-        driver.maximize_window() 
-        driver.implicitly_wait(20)
+        try:
+            element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "fellows-table_next"))
+            )
+        finally:
+            #check if paginated items in current page is no more than 20
+            self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
-        #check if paginated items in current page is no more than 20
-        self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
-
-        #Go to next page and check same 
-        driver.find_element_by_id("fellows-table_next").click()
-        self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
+            #Go to next page and check same 
+            driver.find_element_by_id("fellows-table_next").click()
+            self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
     def tearDown(self):
         self.driver.close()
