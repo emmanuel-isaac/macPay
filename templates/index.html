@@ -42,7 +42,7 @@
     </div>
 
     {% if not request.user.is_authenticated %}
-        <button class="btn waves-effect waves-light login-button btn-large modal-trigger" href="#login-modal">LOGIN TO CONTINUE
+        <button class="btn waves-effect waves-light login-button btn-large modal-trigger" id="login_to_continue" href="#login-modal">LOGIN TO CONTINUE
             <i class="mdi-content-send right"></i>
         </button>
     {% else %}
