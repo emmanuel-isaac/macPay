@@ -35,14 +35,14 @@ class HomePage(unittest.TestCase):
         password= driver.find_element_by_name("password")
         password.send_keys("andela")
         submit = driver.find_element_by_name("action").click()
-        self.assertIn("MacPay", driver.title)
 
         # Add a session key/value pair.
         session_items['sessionid'] = 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'
         session_items.save()
         driver.add_cookie({'name':'sessionid', 'value': 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'})
 
-        driver.get("http://127.0.0.1:8000/dashboard/")   
+        driver.get("http://127.0.0.1:8000/dashboard/")  
+        self.assertIn("MacPay", driver.title) 
         #check for pagination
         paginate = driver.find_element_by_css_selector("#fellows-table tbody")
         #check if paginated items in current page is no more than 20
