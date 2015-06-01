@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'endless_pagination',
 )
 
 INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
@@ -104,3 +105,9 @@ TEMPLATE_DIRS = (
 
 SKILLTREE_API_URL = "http://skilltree.andela.co/api/v1/users"
 X_AUTH_TOKEN = "txPFk-ppyzzI0f6iAoF3jC3amGUosLsabznp26gUxn0"
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
+

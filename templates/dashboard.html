@@ -48,6 +48,8 @@
                 </thead>
 
                 <tbody>
+                    {% load endless %}
+                    {% paginate 20 fellows %}
                     {% for fellow in fellows  %}
                         <tr>
                             <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{fellow}}</a></td>
@@ -112,9 +114,15 @@
                             {% endif %}
                         </div>
                     {% endfor %}
+                    {% get_pages %}
                 </tbody>
             </table> 
-
+            Showing {{ pages.current_start_index }}-{{ pages.current_end_index }} of
+            {{ pages.total_count }}.
+            {% if pages.paginated %}
+            <br/>
+            {{ pages }}
+            {% endif %}
         </div>
     </div>
     
