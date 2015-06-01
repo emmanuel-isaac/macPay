@@ -48,7 +48,7 @@ class HomePage(unittest.TestCase):
         driver.get("http://127.0.0.1:8000/dashboard/")
 
         try:
-            element = WebDriverWait(driver, 10).until(
+            element = WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.ID, "fellows-table_next"))
             )
         finally:
