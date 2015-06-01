@@ -30,26 +30,26 @@ class HomePage(unittest.TestCase):
 
         driver.get("http://127.0.0.1:8000/login")
         self.assertIn("MacPay", driver.title) 
-        login = driver.find_element_by_id("login_to_continue").click()
+        driver.find_element_by_id("login_to_continue").click()
         username = driver.find_element_by_name("username")
         username.send_keys("andela")
         password= driver.find_element_by_name("password")
         password.send_keys("andela")
-        submit = driver.find_element_by_name("action").click()
+        driver.find_element_by_name("action").click()
 
         # Add a session key/value pair.
         session_items['sessionid'] = 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'
         session_items.save()
         driver.add_cookie({'name':'sessionid', 'value': 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'})
 
-        driver.get("http://127.0.0.1:8000/dashboard/")  
-        #check for pagination
-        paginate = driver.find_element_by_css_selector("#fellows-table tbody")
+        driver.get("http://127.0.0.1:8000/dashboard/")
+
         #check if paginated items in current page is no more than 20
-        self.assertLessEqual(len(paginate.find_elements_by_tag_name("tr")), 20)
+        self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
+
         #Go to next page and check same 
-        next_page = driver.find_element_by_id("fellows-table_next").click()
-        self.assertLessEqual(len(paginate.find_elements_by_tag_name("tr")), 20)
+        driver.find_element_by_id("fellows-table_next").click()
+        self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
     def tearDown(self):
         self.driver.close()
