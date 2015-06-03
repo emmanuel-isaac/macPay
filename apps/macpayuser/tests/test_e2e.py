@@ -11,6 +11,8 @@ from django.contrib.auth import login, authenticate
 from django.test.client import Client
 from django.utils.importlib import import_module
 
+driver = webdriver.Firefox()
+
 def create_session_store():
     """ Creates a session storage object. """
 
@@ -20,15 +22,8 @@ def create_session_store():
     store.save()
     return store
 
-class HomePage(unittest.TestCase):
+class Dashboard(unittest.TestCase):
     def setUp(self):
-        password = 'mypassword' 
-        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
-        self.driver = webdriver.Firefox()
-
-    def test_home_page(self):
-        driver = self.driver
-        # Create a session object from the session store object.
         session_items = create_session_store()
 
         driver.get("http://127.0.0.1:8000/login")
@@ -40,21 +35,24 @@ class HomePage(unittest.TestCase):
         password.send_keys("andela")
         driver.find_element_by_name("action").click()
 
-        # Add a session key/value pair.
         session_items['sessionid'] = 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'
         session_items.save()
-        driver.add_cookie({'name':'sessionid', 'value': 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'})
+        driver.add_cookie({'name':'sessionid', 'value': 'c9rf510ewmexa6zbwcydr9fkx8kmmgoe'})  
 
-        driver.get("http://127.0.0.1:8000/dashboard/")
-        #check if paginated items in current page is no more than 20
+    def test_dashboard(self):     
+        driver.maximize_window()  
+        driver.get("http://127.0.0.1:8000/dashboard/") 
         self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
-
         #Go to next page and check same 
         #driver.find_element_by_id("fellows-table_next")
         #self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
+        driver.find_element_by_id("search-bar")
+        search = driver.find_element_by_id("search")
+        search.send_keys("Kosi")
+
     def tearDown(self):
-        self.driver.close()
+        driver.close()
 
 if __name__ == "__main__":
     unittest.main()
