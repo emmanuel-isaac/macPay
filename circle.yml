@@ -7,5 +7,6 @@ dependencies:
   override:
     - pip install -r requirements/dev.txt
   post:
+    - ./manage.py sync_fellows_data
     - ./manage.py runserver:
         background: true
