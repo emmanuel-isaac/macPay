@@ -15,14 +15,14 @@
 <body>
 
     <header>
-        <nav id="nav-bar">
+        <nav>
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="brand-logo">MacPay</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if request.user.is_authenticated %}
-                        <li id="nav-li">
+                        <li>
                             <div class="nav-wrapper search-wrapper">
-                                <form id="search-bar">
+                                <form>
                                     <div class="input-field">
                                         <input id="search" type="search" class='white-text' placeholder="Enter Fellow Name here" required>
                                         <label for="search"><i class="mdi-action-search white-text"></i></label>
