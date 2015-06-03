@@ -47,8 +47,7 @@ class Dashboard(unittest.TestCase):
         #driver.find_element_by_id("fellows-table_next")
         #self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
-        driver.find_element_by_id("nav-bar")
-        driver.find_element_by_id("nav-li")
+        driver.implicitly_wait(10)
         driver.find_element_by_id("search-bar")
         search = driver.find_element_by_id("search")
         search.send_keys("Kosi")
