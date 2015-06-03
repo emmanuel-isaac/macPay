@@ -46,9 +46,8 @@ class Dashboard(unittest.TestCase):
         #Go to next page and check same 
         #driver.find_element_by_id("fellows-table_next")
         #self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
-
-        driver.implicitly_wait(10)
-        driver.find_element_by_id("search-bar")
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.ID,'search-bar')))
         search = driver.find_element_by_id("search")
         search.send_keys("Kosi")
 
