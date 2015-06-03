@@ -15,12 +15,12 @@
 <body>
 
     <header>
-        <nav>
+        <nav id="nav-bar">
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="brand-logo">MacPay</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if request.user.is_authenticated %}
-                        <li>
+                        <li id="nav-li">
                             <div class="nav-wrapper search-wrapper">
                                 <form id="search-bar">
                                     <div class="input-field">
