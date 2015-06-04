@@ -47,9 +47,8 @@ class Dashboard(unittest.TestCase):
         #driver.find_element_by_id("fellows-table_next")
         #self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
 
-        searchbox = driver.find_element_by_class_name("search")
-        #search = driver.find_element_by_tag_name("input")
-        searchbox.send_keys("Kosi")
+        search = driver.find_element_by_tag_name("input")
+        search.send_keys("Kosi")
 
     def tearDown(self):
         driver.close()
