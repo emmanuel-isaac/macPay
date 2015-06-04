@@ -46,9 +46,9 @@ class Dashboard(unittest.TestCase):
         #Go to next page and check same 
         #driver.find_element_by_id("fellows-table_next")
         #self.assertLessEqual(len(driver.find_elements_by_class_name("fellows-list")), 20)
-        print(driver.window_handles)
-        search = driver.find_element_by_tag_name("input")
-        search.send_keys("Kosi")
+        searchbox = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'search')))
+        #search = driver.find_element_by_tag_name("input")
+        searchbox.send_keys("Kosi")
 
     def tearDown(self):
         driver.close()
