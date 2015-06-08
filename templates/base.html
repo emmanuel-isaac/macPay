@@ -23,6 +23,7 @@
                         <li>
                             <div class="nav-wrapper search-wrapper">
                                 <form>
+                                    {% csrf_token %}
                                     <div class="input-field">
                                         <input id="search" type="search" class='white-text' placeholder="Enter Fellow Name here" required>
                                         <label for="search"><i class="mdi-action-search white-text"></i></label>
