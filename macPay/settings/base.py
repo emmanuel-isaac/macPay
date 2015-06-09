@@ -18,8 +18,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import envvars
+import cloudinary
 envvars.load()
 SECRET_KEY = envvars.get('SECRET_KEY')
+
+CLOUDINARY_URL = envvars.get('CLOUDINARY_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -27,7 +30,6 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -49,6 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'cloudinary',
 )
 
 INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS

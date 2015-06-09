@@ -5,14 +5,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-
 from apps.computer.models import Computer
 from apps.computer.forms import ComputerCreationForm
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
-
-
-# Create your views here.
 
 class ComputerListView(ListView):
 
@@ -33,7 +32,8 @@ class CreateComputerView(View):
 
     def post(self, request):
         form = ComputerCreationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():    
+            cloudinary.uploader.upload(request.FILES['photo-url'])
             form.save()
             request.session['status'] = 'create'
             return HttpResponseRedirect(reverse('computer_list'))

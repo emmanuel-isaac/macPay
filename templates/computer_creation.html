@@ -1,5 +1,6 @@
 {% extends "base_site.html" %}
 {% load staticfiles %}
+{% load cloudinary %}
 
 {% block local_css %}
 
@@ -39,7 +40,8 @@
                 </div>
             </form>
         {% else %}
-            <form method='POST' action='{% url "computer_create" %}'>{% csrf_token %}
+            <form method='POST' action='{% url "computer_create" %}' enctype="multipart/form-data">
+                {% csrf_token %}
                 <div>
                     {{form.name.errors}}
                     <label for='name'>Name</label>
@@ -60,7 +62,7 @@
                         <div class="col s3">
                             <div class="btn">
                             <span>Choose computer photo</span>   
-                            <input type="file" id="select-photo"/>
+                            <input type="file" id="select-photo" name="photo-url"/>
                             </div>
                         </div>
                         <div class="col s9 offset-s3">
