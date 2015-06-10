@@ -5,12 +5,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from apps.computer.models import Computer
+from apps.computer.models import Computer, ComputerImage
 from apps.computer.forms import ComputerCreationForm
 
-import cloudinary
+from services.cloudinary_api import cloudinary_get_image_by_id
+
 import cloudinary.uploader
-import cloudinary.api
+
+import os
+import datetime
 
 
 class ComputerListView(ListView):
@@ -23,7 +26,6 @@ class ComputerListView(ListView):
         return context
 
 
-
 class CreateComputerView(View):
     def get(self, request):
         form = ComputerCreationForm()
@@ -32,9 +34,20 @@ class CreateComputerView(View):
 
     def post(self, request):
         form = ComputerCreationForm(request.POST)
-        if form.is_valid():    
-            cloudinary.uploader.upload(request.FILES['photo-url'])
-            form.save()
+        if form.is_valid():
+            if request.FILES.get('photo-url', False):  
+                photo = request.FILES['photo-url']
+                photo_and_date = str(os.path.splitext(str(photo))[0] + '-' + str(datetime.datetime.now()))
+                pub_id = photo_and_date.replace(" ", "")
+                comp_img_data = cloudinary.uploader.upload(photo, public_id=pub_id)
+                comp_img_details = ComputerImage(secure_url=comp_img_data['secure_url'], public_id=comp_img_data['public_id'], height=comp_img_data['height'], width=comp_img_data['width'], original_filename=comp_img_data['original_filename'])
+                comp_img_details.save()
+                comp_creation_form = form.save(commit=False)
+                comp_creation_form.comp_img = comp_img_details
+                comp_creation_form.save()
+            else:
+                form.save()
+
             request.session['status'] = 'create'
             return HttpResponseRedirect(reverse('computer_list'))
 
