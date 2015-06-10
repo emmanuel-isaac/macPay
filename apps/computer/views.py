@@ -8,8 +8,6 @@ from django.core.urlresolvers import reverse
 from apps.computer.models import Computer, ComputerImage
 from apps.computer.forms import ComputerCreationForm
 
-from services.cloudinary_api import cloudinary_get_image_by_id
-
 import cloudinary.uploader
 
 import os
