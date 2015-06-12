@@ -37,17 +37,22 @@ class CreateComputerView(View):
                 photo = request.FILES['photo-url']
                 photo_and_date = str(os.path.splitext(str(photo))[0] + '-' + str(datetime.datetime.now()))
                 pub_id = photo_and_date.replace(" ", "")
-                comp_img_data = cloudinary.uploader.upload(photo, public_id=pub_id)
-                comp_img_details = ComputerImage(secure_url=comp_img_data['secure_url'], public_id=comp_img_data['public_id'], height=comp_img_data['height'], width=comp_img_data['width'], original_filename=comp_img_data['original_filename'])
-                comp_img_details.save()
-                comp_creation_form = form.save(commit=False)
-                comp_creation_form.comp_img = comp_img_details
-                comp_creation_form.save()
+
+                try:
+                    comp_img_data = cloudinary.uploader.upload(photo, public_id=pub_id)
+                    comp_img_details = ComputerImage(secure_url=comp_img_data['secure_url'], public_id=comp_img_data['public_id'], height=comp_img_data['height'], width=comp_img_data['width'], original_filename=comp_img_data['original_filename'])
+                    comp_img_details.save()
+                    comp_creation_form = form.save(commit=False)
+                    comp_creation_form.comp_img = comp_img_details
+                    comp_creation_form.save()
+                    return HttpResponseRedirect(reverse('computer_list'))
+
+                except Exception as e:
+                    if e == 'Invalid image file':
+                        request.session['action'] = 'create'
+                        return render_to_response('computer_creation.html', locals(), context_instance = RequestContext(request))
             else:
                 form.save()
-
-            request.session['status'] = 'create'
-            return HttpResponseRedirect(reverse('computer_list'))
 
         return render_to_response('computer_creation.html', locals(), context_instance=RequestContext(request))
 

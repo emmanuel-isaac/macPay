@@ -8,6 +8,9 @@ class ComputerImage(models.Model):
     width = models.IntegerField()
     original_filename = models.TextField()
 
+    def __unicode__(self):
+        return self.original_filename
+
 class Computer(models.Model):
     name = models.CharField(max_length=100, blank=False)
     model = models.CharField(max_length=100, blank=False)
