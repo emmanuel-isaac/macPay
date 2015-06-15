@@ -51,7 +51,7 @@
                 <tbody>
                     {% for fellow in fellows  %}
                         <tr class="fellows-list">
-                            <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{fellow}}</a></td>
+                            <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{ fellow.first_name }} {{ fellow.last_name }}</a></td>
                             {% if fellow.computer %}
                                 <td>{{fellow.computer}}</td>
                                 <td>{{fellow.computer.cost|intcomma}}</td>

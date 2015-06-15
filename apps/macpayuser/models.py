@@ -31,8 +31,8 @@ class Fellow(models.Model):
     email = models.EmailField(max_length=100, blank=True, null=True)
     computer = models.ForeignKey(Computer, blank=True, null=True)
 
-    def __str__(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+    def __unicode__(self):
+        return '%s %s' % (self.first_name, self.last_name)
 
     def get_payment_start_date(self):
         try:
@@ -132,3 +132,4 @@ class Fellow(models.Model):
 
     
     tentative_payment_end = property(get_tentative_payment_end)
+
