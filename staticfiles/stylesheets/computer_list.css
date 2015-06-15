@@ -14,23 +14,29 @@
     min-height: 280px;
 }
 
-.mac-img {
+.mac-data {
     max-height: 200px;
     width: 100% !important;
     text-align: center;
 }
 
-.mac-img img {
+/*.mac-img img {
     max-height: 200px;
-}
+}*/
 
-.mac-img a {
+.mac-data a {
     color: #26a69a;
     text-transform: none;
 }
 
-.mac-img a:hover {
+.mac-data a:hover {
     color: #64b5f6;
+}
+
+.mac-cost p {
+    position: absolute;
+    bottom: 0;
+    left: 25%;
 }
 
 .contain ul li {
