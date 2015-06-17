@@ -40,6 +40,13 @@
                 </div>
             </form>
         {% else %}
+            <!-- {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %} -->
             <form method='POST' action='{% url "computer_create" %}' enctype="multipart/form-data">
                 {% csrf_token %}
                 <div>
@@ -66,7 +73,8 @@
                             </div>
                         </div>
                         <div class="col s9 offset-s3">
-                            <input class="file-path validate photo-url-text" type="text" placeholder="this field is optional"/>
+                            {# <label for='comp-image' style="font-size:0.8rem; top: 3.5rem; color: red; left: 37.2rem;">Supported file types: png, jpg, gif, bmp, psd, thm, tif</label> #}
+                            <input class="file-path validate photo-url-text" type="text" id="comp-image" placeholder="This field is optional"/>
                         </div>
                     </div>  
                 </div>
@@ -85,7 +93,17 @@
         $(document).ready(function(){
             $(".photo-url-text").change(function(){
                 $(this).val($(this).val().replace(/^.*\\/, ""));
-            });  
+                var ext = $(this).val().split('.').pop().toLowerCase();  
+                var allowedFiles = ["png", "jpg", "gif", "bmp", "psd", "thm", "tif"]
+                if ($.inArray(ext, allowedFiles) === -1) {
+                    toast('<span>File type not supported!</span>', 3000);
+                    setTimeout(
+                        function(){
+                            toast('<span>Supported file types: png, jpg, gif, bmp, psd, thm, tif</span>', 5000)
+                        }, 3000
+                    );
+                } 
+            });
         });
     </script>
 {% endblock local_js %}

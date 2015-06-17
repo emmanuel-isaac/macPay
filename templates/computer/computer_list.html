@@ -28,8 +28,8 @@
                             <span>{{ computer }} <i class='mdi-editor-mode-edit'></i></span>
                         </a>  
                     </div>
-                    <div>
-                        <img src="{{computer.comp_img.secure_url}}" onerror="this.src='{% static 'img/mac-pic.jpeg' %}'" width="80%" height="80%">
+                    <div class="comp-image">
+                        <img src="{{computer.comp_img.secure_url}}" onerror="this.src='{% static 'img/mac-pic.jpeg' %}'">
                     </div>
                     <div class="mac-cost">
                         <p>Cost: &#8358;{{ computer.cost|intcomma }}</p>

@@ -20,10 +20,6 @@
     text-align: center;
 }
 
-/*.mac-img img {
-    max-height: 200px;
-}*/
-
 .mac-data a {
     color: #26a69a;
     text-transform: none;
@@ -46,4 +42,11 @@
 .contain ul {
     text-align: left;
     padding: 0 15px;
+}
+
+.comp-image img{
+    width: 70%;
+    height: 70%;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

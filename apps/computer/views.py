@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+#from django.contrib import messages
 
 from apps.computer.models import Computer, ComputerImage
 from apps.computer.forms import ComputerCreationForm
@@ -39,7 +40,7 @@ class CreateComputerView(View):
                 pub_id = photo_and_date.replace(" ", "")
 
                 try:
-                    comp_img_data = cloudinary.uploader.upload(photo, public_id=pub_id)
+                    comp_img_data = cloudinary.uploader.upload(photo, public_id=pub_id, allowed_formats = ['png, jpg, gif, bmp, psd, thm, tif'])
                     comp_img_details = ComputerImage(secure_url=comp_img_data['secure_url'], public_id=comp_img_data['public_id'], height=comp_img_data['height'], width=comp_img_data['width'], original_filename=comp_img_data['original_filename'])
                     comp_img_details.save()
                     comp_creation_form = form.save(commit=False)
@@ -48,7 +49,8 @@ class CreateComputerView(View):
                     return HttpResponseRedirect(reverse('computer_list'))
 
                 except Exception as e:
-                    if e == 'Invalid image file':
+                    if e.message == 'Invalid image file':
+                        # messages.error(request, 'Invalid image.')
                         request.session['action'] = 'create'
                         return render_to_response('computer_creation.html', locals(), context_instance = RequestContext(request))
             else:
