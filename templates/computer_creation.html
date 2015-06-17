@@ -1,5 +1,6 @@
 {% extends "base_site.html" %}
 {% load staticfiles %}
+{% load cloudinary %}
 
 {% block local_css %}
 
@@ -39,7 +40,15 @@
                 </div>
             </form>
         {% else %}
-            <form method='POST' action='{% url "computer_create" %}'>{% csrf_token %}
+            <!-- {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %} -->
+            <form method='POST' action='{% url "computer_create" %}' enctype="multipart/form-data">
+                {% csrf_token %}
                 <div>
                     {{form.name.errors}}
                     <label for='name'>Name</label>
@@ -55,6 +64,20 @@
                     <label for='cost'>Cost</label>
                     {{form.cost}} 
                 </div>
+                <div class="file-field input-field">
+                    <div class="row">
+                        <div class="col s3">
+                            <div class="btn">
+                            <span>Choose computer photo</span>   
+                            <input type="file" id="select-photo" name="photo-url"/>
+                            </div>
+                        </div>
+                        <div class="col s9 offset-s3">
+                            {# <label for='comp-image' style="font-size:0.8rem; top: 3.5rem; color: red; left: 37.2rem;">Supported file types: png, jpg, gif, bmp, psd, thm, tif</label> #}
+                            <input class="file-path validate photo-url-text" type="text" id="comp-image" placeholder="This field is optional"/>
+                        </div>
+                    </div>  
+                </div>
                 <div>
                     <button type='submit' class='btn waves right'>Create</button>
                 </div>
@@ -66,5 +89,21 @@
 {% endblock content %}
 
 {% block local_js %}
-    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".photo-url-text").change(function(){
+                $(this).val($(this).val().replace(/^.*\\/, ""));
+                var ext = $(this).val().split('.').pop().toLowerCase();  
+                var allowedFiles = ["png", "jpg", "gif", "bmp", "psd", "thm", "tif"]
+                if ($.inArray(ext, allowedFiles) === -1) {
+                    toast('<span>File type not supported!</span>', 3000);
+                    setTimeout(
+                        function(){
+                            toast('<span>Supported file types: png, jpg, gif, bmp, psd, thm, tif</span>', 5000)
+                        }, 3000
+                    );
+                } 
+            });
+        });
+    </script>
 {% endblock local_js %}
