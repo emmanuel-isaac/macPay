@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'cloudinary',
+    'djrill',
 )
 
 INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
@@ -113,3 +114,6 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
 )
 
+MANDRILL_API_KEY = "G-cRWqwV9FvYHRyO-ox1qg"
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+DEFAULT_FROM_EMAIL = "emmanuel.isaac@andela.co"  

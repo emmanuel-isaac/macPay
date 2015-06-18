@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.core.mail import send_mail
 
 # Python Modules
 import csv
@@ -82,8 +83,20 @@ def download_payment_data(request):
 
     return response
 
+class InviteStaffView(View):
+    def get(self, request):
+        return render_to_response('invite-staff.html', context_instance=RequestContext(request))
 
+    def post(self, request):
+        emails = request.POST.get('staff-emails', False)
+        if emails:
+            emails = emails.split(',')
+        else:
+            print "No email entered"
 
+        send_mail("Invitation to MacPay app", "Your friend " + request.user.username + " has invited to register on MacPay app. Complete your registration with this link ..... ",
+        "Djrill Sender <" + request.user.email + ">", emails)
+        
 
 
 

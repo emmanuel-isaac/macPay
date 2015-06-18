@@ -25,3 +25,4 @@ static3==0.5.1
 whitenoise==1.0.6
 selenium==2.45.0
 cloudinary==1.1.1
+djrill==1.4.0
