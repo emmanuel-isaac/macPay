@@ -6,19 +6,20 @@ from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponse
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
+from django.template import Context
+from django.template.loader import render_to_string, get_template
 
 # Python Modules
 import csv
-
+import os, binascii
+import datetime
+from datetime import timedelta
 
 # Local Modules
-from apps.macpayuser.models import Fellow
+from apps.macpayuser.models import Fellow, InviteStaff
 from services.skilltree import *
 
-
-
-# Create your views here.
 # Class Based Home View
 class HomeView(View):
 
@@ -83,6 +84,13 @@ def download_payment_data(request):
 
     return response
 
+
+def generate_invite_id():
+    return binascii.b2a_hex(os.urandom(10))
+
+def generate_password():
+    return binascii.b2a_hex(os.urandom(3))
+
 class InviteStaffView(View):
     def get(self, request):
         return render_to_response('invite-staff.html', context_instance=RequestContext(request))
@@ -94,10 +102,33 @@ class InviteStaffView(View):
         else:
             print "No email entered"
 
-        send_mail("Invitation to MacPay app", "Your friend " + request.user.username + " has invited to register on MacPay app. Complete your registration with this link ..... ",
-        "Djrill Sender <" + request.user.email + ">", emails)
-        
+        invite_staff = InviteStaff()
 
+        for email in emails:
+            msg = EmailMultiAlternatives(
+                subject="Invitation to MacPay",
+                from_email="MacPay <emmanuel.isaac@andela.co>",
+                to=[email]
+            )
+
+            ctx = { 
+                    "email": email, 
+                    "url_id": generate_invite_id(), 
+                    "password": generate_password(),
+                    "user": request.user.username
+                  }
+            msg_invite = get_template('email.html').render(Context(ctx))
+            msg.attach_alternative(msg_invite, "text/html")
+            msg.send()
+
+            invite_staff.invite_id = ctx['url_id']
+            invite_staff.username = ctx['email']
+            invite_staff.password = ctx['password']
+            invite_staff.date_created = datetime.datetime.now()
+            invite_staff.expiry_date =  datetime.datetime.now() + timedelta(hours=48)
+            invite_staff.save()
+        
+        return render_to_response('invite-staff.html', context_instance=RequestContext(request))
 
 
 

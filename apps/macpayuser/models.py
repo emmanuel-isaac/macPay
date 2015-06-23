@@ -133,3 +133,12 @@ class Fellow(models.Model):
     
     tentative_payment_end = property(get_tentative_payment_end)
 
+class InviteStaff(models.Model):
+    invite_id = models.CharField(max_length=30)
+    username = models.EmailField()
+    password = models.CharField(max_length=30)
+    date_created = models.DateTimeField()
+    expiry_date = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.invite_id

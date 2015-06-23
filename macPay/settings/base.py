@@ -114,6 +114,6 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
 )
 
-MANDRILL_API_KEY = "G-cRWqwV9FvYHRyO-ox1qg"
+MANDRILL_API_KEY = envvars.get('MANDRILL_API_KEY')
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 DEFAULT_FROM_EMAIL = "emmanuel.isaac@andela.co"  
