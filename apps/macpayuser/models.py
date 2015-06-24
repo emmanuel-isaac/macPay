@@ -17,12 +17,20 @@ DjangoUser._meta.get_field('is_staff').default=True
 DjangoUser._meta.get_field('is_superuser').default=True
 
 
-
 class StaffUser(models.Model):
     user = models.OneToOneField(DjangoUser)
 
     def __str__(self):
         return '{}'.format(self.user.username)
+
+
+class InviteStaff(DjangoUser):
+    invite_id = models.CharField(max_length=30)
+    date_created = models.DateTimeField()
+    expiry_date = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.invite_id
 
 
 class Fellow(models.Model):
@@ -132,13 +140,3 @@ class Fellow(models.Model):
 
     
     tentative_payment_end = property(get_tentative_payment_end)
-
-class InviteStaff(models.Model):
-    invite_id = models.CharField(max_length=30)
-    username = models.EmailField()
-    password = models.CharField(max_length=30)
-    date_created = models.DateTimeField()
-    expiry_date = models.DateTimeField()
-
-    def __unicode__(self):
-        return self.invite_id

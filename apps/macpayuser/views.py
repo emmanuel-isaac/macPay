@@ -9,7 +9,8 @@ from django.http import HttpResponse
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from django.template import Context
 from django.template.loader import render_to_string, get_template
-# from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import User
 
 
 # Python Modules
@@ -105,9 +106,10 @@ class InviteStaffView(View):
             print "No email entered"
 
         invite_staff = InviteStaff()
-        # domain = get_current_site(request).domain
+        
+        domain = get_current_site(request).domain
 
-        domain = request.META['HTTP_HOST'] 
+        # domain = request.META['HTTP_HOST'] 
 
         for email in emails:
             msg = EmailMultiAlternatives(
@@ -129,7 +131,7 @@ class InviteStaffView(View):
 
             invite_staff.invite_id = ctx['url_id']
             invite_staff.username = ctx['email']
-            invite_staff.password = ctx['password']
+            invite_staff.set_password(ctx['password'])
             invite_staff.date_created = datetime.datetime.now()
             invite_staff.expiry_date =  datetime.datetime.now() + timedelta(hours=48)
             invite_staff.save()
