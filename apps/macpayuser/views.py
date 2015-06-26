@@ -34,7 +34,7 @@ class HomeView(View):
 class LoginView(View):
 
     def get(self, request):
-        if self.request.GET.dict()['invite_id']:
+        if self.request.GET.dict():
             request.session['invite_id'] = self.request.GET.dict()['invite_id']
         return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
