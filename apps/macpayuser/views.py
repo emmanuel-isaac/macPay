@@ -11,6 +11,7 @@ from django.template import Context
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
+from django.utils import timezone 
 
 
 # Python Modules
@@ -33,17 +34,29 @@ class HomeView(View):
 class LoginView(View):
 
     def get(self, request):
-        return HttpResponseRedirect(reverse('home'))
+        if self.request.GET.dict()['invite_id']:
+            request.session['invite_id'] = self.request.GET.dict()['invite_id']
+        return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
     def post(self, request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
+        get_invite_id = request.session['invite_id']
 
         if username and password:
             user = authenticate(username=username, password=password)
-            if user is not None:
+            if user and user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(reverse('dashboard'), locals())
+            elif user and get_invite_id:
+                user_details = InviteStaff.objects.get(invite_id=get_invite_id)
+                if timezone.now() < user_details.expiry_date:
+                    if user_details.username == username and user_details.check_password(password):
+                        user_details.is_active = True
+                        user_details.save()
+                        login(request, user)
+                        del request.session['invite_id']
+                        return HttpResponseRedirect(reverse('dashboard'), locals())
             else:
                 return HttpResponseRedirect(reverse('home'))
 
@@ -109,8 +122,6 @@ class InviteStaffView(View):
         
         domain = get_current_site(request).domain
 
-        # domain = request.META['HTTP_HOST'] 
-
         for email in emails:
             msg = EmailMultiAlternatives(
                 subject="Invitation to MacPay",
@@ -134,21 +145,12 @@ class InviteStaffView(View):
             invite_staff.set_password(ctx['password'])
             invite_staff.date_created = datetime.datetime.now()
             invite_staff.expiry_date =  datetime.datetime.now() + timedelta(hours=48)
+            invite_staff.is_active = False
             invite_staff.save()
         
         return render_to_response('invite-staff.html', context_instance=RequestContext(request))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# class InviteStaffLoginView(View):
+#     def get(self, request, pk):
+#         request.sess
+#         return render_to_response('index.html', context_instance=RequestContext(request))

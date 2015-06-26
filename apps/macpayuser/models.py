@@ -25,12 +25,12 @@ class StaffUser(models.Model):
 
 
 class InviteStaff(DjangoUser):
-    invite_id = models.CharField(max_length=30)
+    invite_id = models.CharField(max_length=50)
     date_created = models.DateTimeField()
     expiry_date = models.DateTimeField()
 
     def __unicode__(self):
-        return self.invite_id
+        return self.username
 
 
 class Fellow(models.Model):

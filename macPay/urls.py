@@ -10,6 +10,7 @@ from apps.macpayuser.views import (
     DashboardView,
     download_payment_data,
     InviteStaffView,
+    # InviteStaffLoginView,
 )
 from apps.payment.views import CreatePlanView, success, SyncPaymentView, ChangePaymentPlanView
 from apps.computer.views import CreateComputerView, ComputerListView, EditComputerView
@@ -18,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', LoginView.as_view(), name='login'),
-    url(r'^login/(?P<pk>[0-9a-zA-Z]+)/$', InviteStaffView.as_view(), name='invite-staff'),
+    # url(r'^login/(?P<pk>[0-9a-zA-Z]+)/', LoginView.as_view(), name='login'),
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^dashboard/', login_required( DashboardView.as_view() ), name='dashboard'),
     url(r'^payment/createplan/(?P<pk>\d+)/$', login_required( CreatePlanView.as_view() ), name='create_plan'),
@@ -30,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^computer/edit/(?P<pk>\d+)/$', login_required( EditComputerView.as_view() ), name='computer_edit'),
     url(r'^download_payment_data/$', download_payment_data, name='download_payment_data'),
     url(r'^invite-staff/$', InviteStaffView.as_view(), name='invite-staff'),
+    # url(r'^accounts/', include('registration.backends.default.urls')),
 )

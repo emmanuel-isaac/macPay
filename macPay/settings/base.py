@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'djrill',
 )
 
+# 'registration',
 INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE_CLASSES = (
@@ -117,3 +118,6 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 MANDRILL_API_KEY = envvars.get('MANDRILL_API_KEY')
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 DEFAULT_FROM_EMAIL = "emmanuel.isaac@andela.co"  
+
+# ACCOUNT_ACTIVATION_DAYS = 2
+# REGISTRATION_AUTO_LOGIN = False
