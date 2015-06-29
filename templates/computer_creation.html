@@ -40,13 +40,6 @@
                 </div>
             </form>
         {% else %}
-            <!-- {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %} -->
             <form method='POST' action='{% url "computer_create" %}' enctype="multipart/form-data">
                 {% csrf_token %}
                 <div>
@@ -73,7 +66,6 @@
                             </div>
                         </div>
                         <div class="col s9 offset-s3">
-                            {# <label for='comp-image' style="font-size:0.8rem; top: 3.5rem; color: red; left: 37.2rem;">Supported file types: png, jpg, gif, bmp, psd, thm, tif</label> #}
                             <input class="file-path validate photo-url-text" type="text" id="comp-image" placeholder="This field is optional"/>
                         </div>
                     </div>
