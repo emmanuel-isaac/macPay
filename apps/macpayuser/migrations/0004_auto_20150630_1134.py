@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             model_name='invitestaff',
             name='id',
             field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
-            preserve_default=False,
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='invitestaff',
