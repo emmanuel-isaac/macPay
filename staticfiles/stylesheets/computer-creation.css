@@ -13,3 +13,14 @@
 .dashboard-back a:hover {
     color: #64b5f6;
 }
+
+.toast {
+    padding: 0;
+}
+
+.toast span {
+    padding: 5px;
+    color: white;
+    background: #e17575;
+    width: 100%;
+}
