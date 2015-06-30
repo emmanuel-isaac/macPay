@@ -37,30 +37,30 @@ class LoginView(View):
     def get(self, request):
         if self.request.GET.dict():
             request.session['invite_id'] = self.request.GET.dict()['invite_id']
+            invite_id = request.session['invite_id']
+
+            try:
+                invite_staff = InviteStaff.objects.get(invite_id=invite_id)
+                if timezone.now() < invite_staff.expiry_date:
+                    invite_staff.user.is_active = True
+                    invite_staff.user.save()
+                  
+            except Exception as e:
+                if e.message == 'InviteStaff matching query does not exist.':
+                    raise Http404("Invalid invitation ID") 
+
         return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
     def post(self, request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
-        invite_id = request.session['invite_id']
 
         if username and password:
             user = authenticate(username=username, password=password)
+
             if user and user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('dashboard'), locals())
-            elif user and invite_id:
-                try:
-                    user_details = InviteStaff.objects.get(invite_id=invite_id)
-                    if timezone.now() < user_details.expiry_date:
-                        user_details.is_active = True
-                        user_details.save()
-                        login(request, user)
-                        del request.session['invite_id']
-                        return HttpResponseRedirect(reverse('dashboard'), locals())
-                except Exception as e:
-                    if e.message == 'InviteStaff matching query does not exist.':
-                        raise Http404("Invalid invitation ID")  
+                return HttpResponseRedirect(reverse('dashboard'), locals()) 
             else:
                 return HttpResponseRedirect(reverse('home'))
 
@@ -119,10 +119,6 @@ class InviteStaffView(View):
         emails = request.POST.get('staff-emails', False)
         if emails:
             emails = emails.split(',')
-        else:
-            print "No email entered"
-
-        invite_staff = InviteStaff()
         
         domain = get_current_site(request).domain
 
@@ -132,9 +128,11 @@ class InviteStaffView(View):
                 from_email="MacPay <emmanuel.isaac@andela.co>",
                 to=[email]
             )
-
+            
+            username = str(email.split('@')[0]).strip()
+            
             ctx = { 
-                    "email": email, 
+                    "username": username, 
                     "url_id": generate_invite_id(), 
                     "password": generate_password(),
                     "user": request.user.username,
@@ -144,12 +142,15 @@ class InviteStaffView(View):
             msg.attach_alternative(msg_invite, "text/html")
             msg.send()
 
-            invite_staff.invite_id = ctx['url_id']
-            invite_staff.username = ctx['email']
-            invite_staff.set_password(ctx['password'])
-            invite_staff.date_created = datetime.datetime.now()
-            invite_staff.expiry_date =  datetime.datetime.now() + timedelta(hours=48)
-            invite_staff.is_active = False
-            invite_staff.save()
+
+            user = User(username=ctx['username'], is_active=False)
+            user.set_password(ctx['password'])
+            user.save()
+
+            invite = InviteStaff(user=user, invite_id=ctx['url_id'], 
+                                date_created=datetime.datetime.now(), 
+                                expiry_date=datetime.datetime.now()+timedelta(hours=48))
+            invite.save()
+
         
         return render_to_response('invite-staff.html', context_instance=RequestContext(request))
