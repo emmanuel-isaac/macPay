@@ -23,14 +23,17 @@
         {% for computer in object_list  %}
             <div class='col s3 comp-col'>
                 <div style='margin: 5px' class='com-info card'>
-                    <div class='mac-img'>
+                    <div class='mac-data'>
                         <a href="{% url 'computer_edit' pk=computer.id %}" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Edit Computer Details">
                             <span>{{ computer }} <i class='mdi-editor-mode-edit'></i></span>
-                        </a>
-                        <img src="{% static 'img/mac-pic.jpeg' %}">
+                        </a>  
                     </div>
-
-                    <p>Cost: &#8358;{{ computer.cost|intcomma }}</p>
+                    <div class="comp-image">
+                        <img src="{{computer.comp_img.secure_url}}" onerror="this.src='{% static 'img/mac-pic.jpeg' %}'">
+                    </div>
+                    <div class="mac-cost">
+                        <p>Cost: &#8358;{{ computer.cost|intcomma }}</p>
+                    </div>
                 </div>
             </div>  
         {% endfor %}

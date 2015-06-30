@@ -1,0 +1,14 @@
+#invite-text-area {
+    width: 35%;
+    height: 100%;
+}
+.toast {
+    padding: 0;
+}
+
+.toast span {
+    padding: 5px;
+    color: white;
+    background: #e17575;
+    width: 100%;
+}
