@@ -24,13 +24,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='invitestaff',
             name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, default=1, serialize=False, verbose_name='ID'),
+            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='invitestaff',
             name='user',
-            field=models.OneToOneField(default=1, to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
             preserve_default=False,
         ),
         migrations.AlterField(
