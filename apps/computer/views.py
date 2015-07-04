@@ -5,17 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-
 from apps.computer.models import Computer
 from apps.computer.forms import ComputerCreationForm
 
-
-
-
 # Create your views here.
-
 class ComputerListView(ListView):
-
     model = Computer
 
     def get_context_data(self, **kwargs):
@@ -24,12 +18,11 @@ class ComputerListView(ListView):
         return context
 
 
-
 class CreateComputerView(View):
     def get(self, request):
         form = ComputerCreationForm()
         request.session['action'] = 'create'
-        return render_to_response('computer_creation.html', locals(), context_instance = RequestContext(request))
+        return render_to_response('computer_creation.html', locals(), context_instance=RequestContext(request))
 
     def post(self, request):
         form = ComputerCreationForm(request.POST)
@@ -61,5 +54,3 @@ class EditComputerView(View):
 
         else:
             return render_to_response('computer_creation.html', locals(), context_instance=RequestContext(request))
-
-
