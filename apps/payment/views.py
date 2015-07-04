@@ -80,7 +80,7 @@ class ChangePaymentPlanView(View):
         if form.is_valid():
             data = form.data
             last_payment = fellow.paymenthistory_set.last()
-            last_payment.current_payment_plan = PaymentPlan.objects.get(plan_duration=data['plan_duration'])
+            last_payment.current_payment_plan = PaymentPlan.objects.get(pk=data['plan_duration'])
             last_payment.save()
             return HttpResponseRedirect(reverse('success'), locals())
         else:

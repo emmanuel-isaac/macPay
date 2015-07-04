@@ -5,21 +5,11 @@ from services.core_functions import monthdelta
 from apps.payment.models import PaymentPlan, PaymentHistory
 from apps.computer.models import Computer
 
-DURATION_CHOICES = (
-    ('--', '---- Select ----'),
-    (6, '6 months'),
-    (12, '12 months'),
-    (18, '18 months'),
-    (24, '24 months'),
-)
-
 
 class PaymentPlanForm(forms.Form):
-    plan_duration = forms.TypedChoiceField(choices=DURATION_CHOICES, initial='--')
-
-    def is_valid(self):
-        if self.data['plan_duration'] != '--':
-            return super(PaymentPlanForm, self).is_valid()
+    plan_duration = forms.ModelChoiceField(queryset=PaymentPlan.objects.all().order_by('plan_duration'),
+                                           widget=forms.Select(choices=()), required=True,
+                                           empty_label='--- Select a Plan ---')
 
 
 class PaymentHistoryForm(forms.Form):
@@ -28,11 +18,13 @@ class PaymentHistoryForm(forms.Form):
     amount_paid = forms.FloatField(widget=forms.NumberInput(
         attrs={'id': 'amount_paid', 'type': 'number', 'placeholder': 'Optional: For fellows with prior payments'}),
         required=False)
-    payment_plan = forms.ModelChoiceField(queryset=PaymentPlan.objects.all(),
+    payment_plan = forms.ModelChoiceField(queryset=PaymentPlan.objects.all().order_by('plan_duration'),
                                           widget=forms.Select(choices=(),
-                                                              attrs={'id': 'payment_plan', 'required': 'True'}))
+                                                              attrs={'id': 'payment_plan'}), required=True,
+                                          empty_label='--- Select a Plan ---')
     computer = forms.ModelChoiceField(queryset=Computer.objects.all(),
-                                      widget=forms.Select(choices=(), attrs={'id': 'computer', 'required': 'True'}))
+                                      widget=forms.Select(choices=(), attrs={'id': 'computer'}), required=True,
+                                      empty_label='--- Select a Computer ---')
 
     def save(self, fellow):
         data = self.data
