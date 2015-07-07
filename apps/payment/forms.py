@@ -26,6 +26,11 @@ class PaymentHistoryForm(forms.Form):
                                       widget=forms.Select(choices=(), attrs={'id': 'computer'}), required=True,
                                       empty_label='--- Select a Computer ---')
 
+    def is_valid(self):
+        if self.data['payment_start_date'] != datetime.date.today() and not self.data['amount_paid']:
+            return False
+        return super(PaymentHistoryForm, self).is_valid()
+
     def save(self, fellow):
         data = self.data
         fellow.computer = Computer.objects.get(pk=data['computer'])

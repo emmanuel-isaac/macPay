@@ -43,9 +43,13 @@ def get_months_left_on_plan(fellow):
 
 @register.filter(name='get_tentative_payment_end_date')
 def get_tentative_payment_end_date(fellow):
-    months_left = get_months_left_on_plan(fellow)
-    if months_left:
-        return add_months(datetime.date.today(), months_left)
+    try:
+        months_left = get_months_left_on_plan(fellow)
+        if months_left:
+            return add_months(datetime.date.today(), months_left)
+    except Exception, e:
+        pass
+    
     return None
 
 
