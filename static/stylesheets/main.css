@@ -1,6 +1,6 @@
-/************************/
+/************************
 HEADER
-    /*************************/
+*************************/
 .brand-logo {
     margin-left: 5vw;
     font-family: MedievalSharp, sans-serif;
@@ -46,9 +46,9 @@ nav a {
     background: none !important;
 }
 
-/************************/
-SECTION
-    /*************************/
+/************************
+    SECTION
+*************************/
 .home-body {
     height: 350px;
     width: 99vw;
