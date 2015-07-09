@@ -1,4 +1,4 @@
-from apps.payment.models import PaymentHistory
+from apps.payment.models import PaymentHistory, PaymentPlan
 import calendar
 import datetime
 

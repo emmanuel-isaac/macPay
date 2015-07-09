@@ -5,12 +5,16 @@ register = template.Library()
 
 from services.core_functions import diff_month, add_months
 
+
 @register.filter(name='get_current_payment_plan')
 def get_current_payment_plan(fellow):
     last_payment_history = fellow.paymenthistory_set.last()
     if last_payment_history:
-        current_payment_plan = last_payment_history.current_payment_plan
-        return current_payment_plan
+        try:
+            current_payment_plan = last_payment_history.current_payment_plan
+            return current_payment_plan
+        except ValueError as e:
+            print e
     return None
 
 
@@ -45,11 +49,11 @@ def get_months_left_on_plan(fellow):
 def get_tentative_payment_end_date(fellow):
     try:
         months_left = get_months_left_on_plan(fellow)
+
         if months_left:
             return add_months(datetime.date.today(), months_left)
     except Exception, e:
         pass
-    
     return None
 
 
@@ -67,5 +71,3 @@ def check_none(value):
     if value:
         return value
     return '--'
-
-

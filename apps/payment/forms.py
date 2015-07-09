@@ -27,7 +27,10 @@ class PaymentHistoryForm(forms.Form):
                                       empty_label='--- Select a Computer ---')
 
     def is_valid(self):
-        if self.data['payment_start_date'] != datetime.date.today() and not self.data['amount_paid']:
+        if not self.data['amount_paid'] and datetime.datetime.strptime(self.data['payment_start_date'],
+                                                                       "%Y-%m-%d").strftime(
+                '%m %y') != datetime.date.today().strftime('%m %y'):
+            self.add_error('amount_paid', "Please, enter fellow's prior payment sum")
             return False
         return super(PaymentHistoryForm, self).is_valid()
 

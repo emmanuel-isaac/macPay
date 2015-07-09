@@ -25,7 +25,6 @@ class CreatePlanView(View):
     def post(self, request, pk):
         form = PaymentHistoryForm(request.POST)
         fellow = Fellow.objects.get(pk=pk)
-        print form.is_valid()
         if form.is_valid():
             form.save(fellow)
             request.session['status'] = 'create'

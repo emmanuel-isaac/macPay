@@ -26,26 +26,26 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="col s6">
-                        {{ form.computer.errors }}
+                        <span class="error">{{ form.computer.errors }}</span>
                         <label for="computer">Computer</label>
                         {{ form.computer }}
                     </div>
 
                     <div class="col s6">
-                        {{ form.payment_plan.errors }}
+                        <span class="error">{{ form.payment_plan.errors }}</span>
                         <label for="payment_plan">Payment Plan</label>
                         {{ form.payment_plan }}
                     </div>
                 </div>
 
                 <div class="row">
-                    {{ form.payment_start_date.errors }}
+                    <span class="error">{{ form.payment_start_date.errors }}</span>
                     <label for="payment_start_date">Payment Start Date:</label>
                     {{ form.payment_start_date }}
                 </div>
 
                 <div class="col s6">
-                    {{ form.amount_paid.errors }}
+                    <span class="error">{{ form.amount_paid.errors }}</span>
                     <label for="amount_paid">Prior Payment</label>
                     {{ form.amount_paid }}
                 </div>
