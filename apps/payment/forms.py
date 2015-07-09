@@ -1,6 +1,7 @@
 from django import forms
 import datetime
 from services.core_functions import monthdelta
+from dateutil.parser import parse as parse_date
 
 from apps.payment.models import PaymentPlan, PaymentHistory
 from apps.computer.models import Computer
@@ -31,6 +32,9 @@ class PaymentHistoryForm(forms.Form):
                                                                        "%Y-%m-%d").strftime(
                 '%m %y') != datetime.date.today().strftime('%m %y'):
             self.add_error('amount_paid', "Please, enter fellow's prior payment sum")
+            return False
+        if parse_date(self.data['payment_start_date']) > datetime.datetime.today():
+            self.add_error('payment_start_date', "Cannot create payment for a future date.")
             return False
         return super(PaymentHistoryForm, self).is_valid()
 
