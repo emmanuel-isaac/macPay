@@ -1,13 +1,7 @@
 from django.test import TestCase
 
-
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
-
 from apps.macpayuser.models import Fellow, StaffUser, DjangoUser
 from apps.computer.models import Computer
-from apps.payment.models import PaymentHistory, PaymentPlan
 
 
 class StaffUserTestCase(TestCase):
@@ -24,22 +18,12 @@ class StaffUserTestCase(TestCase):
 
 class FellowTestCase(TestCase):
     def setUp(self):
-        self.computer = Computer.objects.create(name='MacBook', model='Pro 2014', cost=200000 )
-        fellow = Fellow.objects.create(first_name='Ifedapo', last_name='Olarewaju', email='ifedapoolarewaju@andela.co', computer=self.computer )
-        self.payment_plan = PaymentPlan.objects.create(plan_duration='12', fellow=fellow)
-        self.payment_history = PaymentHistory.objects.create(fellow=fellow, sum_paid=40000.00, payment_plan=self.payment_plan)
+        self.computer = Computer.objects.create(name='MacBook', model='Pro 2014', cost=200000)
+        Fellow.objects.create(first_name='Ifedapo', last_name='Olarewaju', email='ifedapoolarewaju@andela.co',
+                              computer=self.computer)
 
     def test_fellow_fields(self):
         ifedapo = Fellow.objects.get(first_name='Ifedapo')
         self.assertEqual(ifedapo.last_name, 'Olarewaju')
         self.assertEqual(ifedapo.computer, self.computer)
         self.assertEqual(ifedapo.email, 'ifedapoolarewaju@andela.co')
-        
-
-    def test_fellow_methods(self):
-        ifedapo = Fellow.objects.get(first_name='Ifedapo')
-        self.assertEqual(ifedapo.recent_payment_plan, self.payment_plan)
-        self.assertEqual(ifedapo.amount_paid, 40000.00)
-        self.assertEqual(ifedapo.due_balance, 160000.00)
-        self.assertEqual(ifedapo.monthly_payment, 14545.45)
-        

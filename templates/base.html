@@ -23,6 +23,7 @@
                         <li>
                             <div class="nav-wrapper search-wrapper">
                                 <form>
+                                    {% csrf_token %}
                                     <div class="input-field">
                                         <input id="search" type="search" class='white-text' placeholder="Enter Fellow Name here" required>
                                         <label for="search"><i class="mdi-action-search white-text"></i></label>
@@ -42,6 +43,7 @@
                             <li class='drop-links'><a href="{% url 'computer_list' %}">Computers</a></li>
                             <li class="divider"></li>
                             <li class='drop-links'><a href="{% url 'computer_create' %}">Add New Computer</a></li>
+                            <li class='drop-links'><a href="{% url 'invite-staff' %}">Invite staff</a></li>
                             <li class="divider"></li>
                             <li class='drop-links'><a href="{% url 'logout' %}">Logout</a></li>
                             <li class="divider"></li>

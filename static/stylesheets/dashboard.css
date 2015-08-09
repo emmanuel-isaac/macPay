@@ -33,7 +33,8 @@
 }
 
 th {
-    min-width: 200px !important;
+    min-width: 140px !important;
+    text-align: center;
 }
 
 .fellow-info {
@@ -42,10 +43,16 @@ th {
 }
 
 td {
-    max-width: 200px !important;
+    max-width: 150px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    text-align: center;
+}
+
+.topic {
+    text-align: left;
+    font-weight: 800;
 }
 
 .card a {

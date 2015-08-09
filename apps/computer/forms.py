@@ -1,6 +1,5 @@
 from django.forms import ModelForm
 
-
 from apps.computer.models import Computer
 
 

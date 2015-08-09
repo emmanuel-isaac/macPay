@@ -1,4 +1,5 @@
 from django.db import models
+from apps.macpayuser.models import Fellow
 import datetime
 
 
@@ -7,26 +8,19 @@ import datetime
 
 class PaymentPlan(models.Model):
     plan_duration = models.PositiveIntegerField(blank=False)
-    fellow = models.ForeignKey('macpayuser.Fellow', related_name='payment_plans')
     date_created = models.DateField(default=datetime.datetime.now())
 
     def __str__(self):
-        return '{} - {} {}'.format(self.plan_duration, self.fellow.first_name, self.fellow.last_name)
-
-    def get_months_left_on_plan(self):
-        number_of_payments = self.payments.all().count()
-        months_left = int(self.plan_duration) - number_of_payments
-        return months_left
-
-    months_left_on_plan = property(get_months_left_on_plan)
+        return '%s-month' % (self.plan_duration)
 
 
 class PaymentHistory(models.Model):
 
-    fellow = models.ForeignKey('macpayuser.Fellow', related_name='payment_histories')
+    fellow = models.ForeignKey(Fellow)
     date = models.DateField(default=datetime.datetime.now())
-    sum_paid = models.DecimalField(null=False, blank=False, max_digits=100, decimal_places=2)
-    payment_plan = models.ForeignKey(PaymentPlan, null=False, blank=False, related_name='payments')
+    sum_paid = models.DecimalField(null=True, max_digits=100, decimal_places=2)
+    previous_payment_plan = models.ForeignKey(PaymentPlan, null=False, blank=False, related_name='payments')
+    current_payment_plan = models.ForeignKey(PaymentPlan, null=True, blank=False)
 
     def __str__(self):
         return '{} - {} paid the sum of {}'.format(self.date, self.fellow, self.sum_paid)

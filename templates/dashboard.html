@@ -1,6 +1,7 @@
 {% extends "base_site.html" %}
 {% load staticfiles %}
 {% load humanize %}
+{% load macpayuser_extras %}
 
 {% block local_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/dashboard.css' %}">
@@ -11,8 +12,8 @@
 {% block content %}
     <div class="fellow-summary card">
         <ul>
-            <li>Total Number of Fellows: {{fellows.count}}</li>
-            <li class='right'>Number of Fellows with Payment Plans: {{fellows_with_plan | length}}</li>
+            <li>Total Number of Fellows: {{ fellows.count }}</li>
+            <li class='right'>Fellows with Computers: {{ fellows_with_plan | length }}</li>
         </ul>
     </div>
 
@@ -21,117 +22,119 @@
     <div class='the-container card'>
         <ul>
             <li>
-                <a href="{% url 'sync_payment' %}" class="btn waves-effect waves-light btn-large white-text">Sync Payment
+                <a href="{% url 'sync_payment' %}" class="btn waves-effect waves-light btn-large white-text">Sync
+                    Payment
                 </a>
             </li>
             <li>
-                <a href="{% url 'download_payment_data' %}" class="btn waves-effect waves-light btn-large white-text">Download As CSV
+                <a href="{% url 'download_payment_data' %}" class="btn waves-effect waves-light btn-large white-text">Download
+                    As CSV
                 </a>
             </li>
         </ul>
         <div class="divider"></div>
-        
+
         <div class="fellow-info">
             <table id="fellows-table" class="striped bordered">
                 <thead>
-                    <tr>
-                        <th data-field="id">Fellow</th>
-                        <th data-field="name">Computer Model</th>
-                        <th data-field="price">Computer Value (&#8358;)</th>
-                        <th data-field="price">Payment Plan (months)</th>
-                        <th data-field="price">Monthly Payment (&#8358;)</th>
-                        <th data-field="price">Payment Start Date</th>
-                        <th data-field="price">Amount Paid (&#8358;)</th>
-                        <th data-field="price">Balance (&#8358;)</th>
-                        <th data-field="price">Payment Plan Change Date</th>
-                        <th data-field="price">Final Payment Date</th>
-                    </tr>
+                <tr>
+                    <th data-field="id" class="topic">Fellow</th>
+                    <th data-field="name">Computer Model</th>
+                    <th data-field="price">Computer Value (&#8358;)</th>
+                    <th data-field="price">Payment Plan</th>
+                    <th data-field="price">Payment Start Date</th>
+                    <th data-field="price">Amount Paid (&#8358;)</th>
+                    <th data-field="price">Balance (&#8358;)</th>
+                    <th data-field="price">Final Payment Date</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                    {% for fellow in fellows  %}
-                        <tr class="fellows-list">
-                            <td><a href="#modal{{fellow.id}}" class="modal-trigger fellow-link">{{ fellow.first_name }} {{ fellow.last_name }}</a></td>
-                            {% if fellow.computer %}
-                                <td>{{fellow.computer}}</td>
-                                <td>{{fellow.computer.cost|intcomma}}</td>
-                            {% else %}
-                                <td>--</td>
-                                <td>--</td>
-                            {% endif %}
-                            <td>{{fellow.recent_payment_plan.plan_duration}}</td>
-                            <td>{{fellow.monthly_payment|intcomma}}</td>
-                            <td>{{fellow.payment_start_date}}</td>
-                            <td>{{fellow.amount_paid|intcomma}}</td>
-                            <td>{{fellow.due_balance|intcomma}}</td>
-                            <td>{{fellow.last_plan_change_date}}</td>
-                            <td>{{fellow.tentative_payment_end}}</td>
-                        </tr>
+                {% for fellow in fellows %}
+                    <tr class="fellows-list">
+                        <td class="topic"><a href="#modal{{ fellow.id }}"
+                                             class="modal-trigger fellow-link">{{ fellow.first_name }} {{ fellow.last_name }}</a>
+                        </td>
+                        <td>{{ fellow.computer | check_none }}</td>
+                        <td>{{ fellow.computer.cost | check_none | intcomma }}</td>
+                        <td>{{ fellow | get_current_payment_plan | check_none }}</td>
+                        {#                            <td>{{fellow.monthly_payment|intcomma}}</td>#}
+                        <td>{{ fellow.payment_start_date | check_none }}</td>
+                        <td>{{ fellow | get_amount_paid | check_none | intcomma }}</td>
+                        <td>{{ fellow | get_balance | check_none | intcomma }}</td>
+                        <td>{{ fellow | get_tentative_payment_end_date | check_none }}</td>
+                    </tr>
 
-                        <!-- Modal Structure -->
-                        <div id="modal{{fellow.id}}" class="modal">
-                            <div class="modal-content">
-                                <h4>{{fellow.first_name}} {{fellow.last_name}}</h4>
-                                {% if fellow.payment_plans.last %}
-                                    <p>Payment Plan Status: Active</p>
-                                    <div class="divider"></div>
-                                    <div class="pay-info">
-                                        <div class="section row">
-                                            <h6 class="col s6">PAYMENT SUMMARY FOR: {{fellow.computer}}</h6>
-                                            <h6 class="col s6">VALUE: &#8358; {{fellow.computer.cost|intcomma}}</h6>
-                                        </div>
-                                        <div class="divider"></div>
-                                        <div class="section row">
-                                            <h6 class="col s6">CURRENT PAYMENT PLAN: {{fellow.payment_plans.last.plan_duration}} months</h6>
-                                            <h6 class="col s6">PAYMENT COMPLETION DATE: {{fellow.tentative_payment_end}}</h6>
-                                        </div>
-                                        <div class="divider"></div>
-                                        <div class="section row">
-                                            <h6 class="col s6">AMOUNT PAID: &#8358; {{fellow.amount_paid|intcomma}}</h6>
-                                            <h6 class="col s6">BALANCE: &#8358; {{fellow.due_balance|intcomma}}</h6>
-                                        </div>
+                    <!-- Modal Structure -->
+                    <div id="modal{{ fellow.id }}" class="modal">
+                        <div class="modal-content">
+                            <h4>{{ fellow.first_name }} {{ fellow.last_name }}</h4>
+                            {% if fellow.payment_start_date %}
+                                <p>Payment Plan Status: Active</p>
+                                <div class="divider"></div>
+                                <div class="pay-info">
+                                    <div class="section row">
+                                        <h6 class="col s6">PAYMENT SUMMARY FOR: {{ fellow.computer }}</h6>
+                                        <h6 class="col s6">VALUE: &#8358; {{ fellow.computer.cost|intcomma }}</h6>
                                     </div>
-                                {% endif %}
-                            </div>
-                            <a href="#!" class="modal-close modal-action"><i class="mdi-content-clear close-modal small"></i></a>
-
-                            {% if fellow.payment_plans.last %}
-                                <a href="{% url 'change_plan' pk=fellow.id %}">
-                                    <button class="btn waves-effect waves-light btn-large change-button">Change Payment Plan
-                                    </button> 
-                                </a>
-                                <button class="btn waves-effect waves-light red darken-1 btn-large terminate-button" type="submit" name="action">Terminate Payment
-                                </button>
-                            {% else %}
-                                <h6>No Mac Payment Plan</h6>
-                                <div class="create-button">
-                                    <a href="{% url 'create_plan' pk=fellow.id %}">
-                                        <button class="btn waves-effect waves-light btn-large" name="action">Create Payment Plan
-                                        </button>
-                                    </a>
+                                    <div class="divider"></div>
+                                    <div class="section row">
+                                        <h6 class="col s6">CURRENT PAYMENT
+                                            PLAN: {{ fellow | get_current_payment_plan }}</h6>
+                                        <h6 class="col s6">PAYMENT COMPLETION
+                                            DATE: {{ fellow | get_tentative_payment_end_date }}</h6>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="section row">
+                                        <h6 class="col s6">AMOUNT PAID:
+                                            &#8358; {{ fellow | get_amount_paid |intcomma }}</h6>
+                                        <h6 class="col s6">BALANCE: &#8358; {{ fellow | get_balance | intcomma }}</h6>
+                                    </div>
                                 </div>
                             {% endif %}
                         </div>
-                    {% endfor %}
+                        <a href="#!" class="modal-close modal-action"><i
+                                class="mdi-content-clear close-modal small"></i></a>
+
+                        {% if fellow.payment_start_date %}
+                            <a href="{% url 'change_plan' pk=fellow.id %}">
+                                <button class="btn waves-effect waves-light btn-large change-button">Change Payment Plan
+                                </button>
+                            </a>
+                            <button class="btn waves-effect waves-light red darken-1 btn-large terminate-button"
+                                    type="submit" name="action">Terminate Payment
+                            </button>
+                        {% else %}
+                            <h6>No Mac Payment Plan</h6>
+                            <div class="create-button">
+                                <a href="{% url 'create_plan' pk=fellow.id %}">
+                                    <button class="btn waves-effect waves-light btn-large" name="action">Create Payment
+                                        Plan
+                                    </button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
                 </tbody>
-            </table> 
+            </table>
         </div>
     </div>
-    
+
 {% endblock content %}
 
 {% block local_js %}
     <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             var oTable = $('#fellows-table').dataTable({
                 "iDisplayLength": 20,
                 "sDom": '<"top">tip'
-                });
-            $('#search').keyup(function(){
+            });
+            $('#search').keyup(function () {
                 oTable.fnFilter($(this).val());
             });
-        });        
+        });
     </script>
 {% endblock local_js %}
 

@@ -1,7 +1,6 @@
-/************************/
+/************************
 HEADER
-/*************************/
-
+*************************/
 .brand-logo {
     margin-left: 5vw;
     font-family: MedievalSharp, sans-serif;
@@ -13,7 +12,7 @@ nav {
 }
 
 nav a {
-   color: #fff !important;
+    color: #fff !important;
 }
 
 .drop-links a {
@@ -23,14 +22,14 @@ nav a {
 }
 
 .caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 5px;
-  vertical-align: middle;
-  border-top: 4px solid;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
 }
 
 #search {
@@ -47,18 +46,16 @@ nav a {
     background: none !important;
 }
 
-
-/************************/
-SECTION
-/*************************/
-
+/************************
+    SECTION
+*************************/
 .home-body {
     height: 350px;
     width: 99vw;
     background: linear-gradient(
-      rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0.6)
-    ),url('../img/mac_image.jpg') no-repeat;
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+    ), url('../img/mac_image.jpg') no-repeat;
     background-size: cover;
     margin: 0 auto;
     width: 100vw;
@@ -84,7 +81,6 @@ section {
     color: #fff;
 }
 
-
 #login-modal {
     width: 30vw;
     height: 50vh;
@@ -96,26 +92,6 @@ footer {
     color: #fff;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.errorlist li {
+    color: red;
+}
